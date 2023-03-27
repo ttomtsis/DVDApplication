@@ -1,16 +1,18 @@
 package com.retail.dvdapplication.controllers;
 
 import com.retail.dvdapplication.repositories.dvd;
-import com.retail.dvdapplication.services.DVDService;
+import com.retail.dvdapplication.repositories.DVDService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
 * Creates mappings for HTTP Methods and links them
 * to respective service implementations of DVDService
 * */
 @RestController
+@RequestMapping(value = "/api")
 public class DVDController {
 
     private final DVDService service;
@@ -30,7 +32,7 @@ public class DVDController {
     }
 
     @GetMapping("/dvd/{id}")
-    public List<dvd> read_by_id(@PathVariable long id) {
+    public Optional<dvd> read_by_id(@PathVariable long id) {
         return service.read(id);
     }
 

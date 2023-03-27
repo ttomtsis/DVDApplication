@@ -1,5 +1,6 @@
 package com.retail.dvdapplication.repositories;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -14,6 +15,7 @@ public class dvd {
     @Id
     @GeneratedValue
     private Long id;
+    @Nonnull
     private String name;
     private String genre;
     private int reserve;
@@ -27,32 +29,32 @@ public class dvd {
     }
 
     // SETTERS
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setGenre(String genre) {
+    void setGenre(String genre) {
         this.genre = genre;
     }
 
-    public void setReserve(int reserve) {
+    void setReserve(int reserve) {
         this.reserve = reserve;
     }
 
     // GETTERS
-    public Long getId() {
+    Long getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return this.name;
     }
 
-    public String getGenre() {
+    String getGenre() {
         return this.genre;
     }
 
-    public int getReserve() {
+    int getReserve() {
         return this.reserve;
     }
 }
