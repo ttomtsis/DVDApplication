@@ -1,9 +1,7 @@
 package com.retail.dvdapplication.repositories;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -16,6 +14,7 @@ public class dvd {
     @GeneratedValue
     private Long id;
     @Nonnull
+    @Column(unique=true)
     private String name;
     private String genre;
     private int reserve;
@@ -56,5 +55,11 @@ public class dvd {
 
     int getReserve() {
         return this.reserve;
+    }
+
+    // UTILITY
+    @Override
+    public String toString() {
+        return "DVD {" + "id=" + this.id + ", name='" + this.name + '\'' + ", genre='" + this.genre + '\'' + ", reserve='" + this.reserve + '\'' + '}';
     }
 }

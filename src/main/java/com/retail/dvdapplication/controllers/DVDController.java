@@ -2,6 +2,8 @@ package com.retail.dvdapplication.controllers;
 
 import com.retail.dvdapplication.repositories.dvd;
 import com.retail.dvdapplication.repositories.DVDService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +18,30 @@ import java.util.Optional;
 public class DVDController {
 
     private final DVDService service;
+    private static final Logger log = LoggerFactory.getLogger("CONTROLLER RESPONSE");
 
     public DVDController(DVDService service) {
         this.service = service;
     }
 
     @PostMapping("/dvd")
-    public void create(@RequestBody Object dvd) {
-        service.create(dvd);
+    public void create(@RequestBody dvd new_dvd) {
+        service.create(new_dvd);
     }
 
-    @GetMapping("/dvd")
-    public List<dvd> read() {
+    @GetMapping("/dvd/all")
+    public List<dvd> read_all() {
+        List<dvd> a = service.read();
+        log.info(a.toString());
         return service.read();
     }
 
-    @GetMapping("/dvd/{id}")
+    @GetMapping("/dvd/id/{id}")
     public Optional<dvd> read_by_id(@PathVariable long id) {
         return service.read(id);
     }
 
-    @GetMapping("/dvd/{name}")
+    @GetMapping("/dvd/name/{name}")
     public List<dvd> read_by_name(@PathVariable String name) {
         return service.read(name);
     }
