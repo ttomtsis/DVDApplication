@@ -2,7 +2,8 @@ package com.retail.dvdapplication.repositories;
 
 import com.retail.dvdapplication.exceptions.DVDNotFoundException;
 import jakarta.transaction.Transactional;
-import org.hibernate.cfg.NotYetImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class DVDService {
         this.repository = repository;
     }
 
+    private static final Logger log = LoggerFactory.getLogger("Query Response");
     public List<dvd> read() {
         return repository.findAll();
     }
@@ -30,33 +32,65 @@ public class DVDService {
     public Optional<dvd> read(long id) {
         Optional<dvd> requested_dvd = repository.findById(id);
         if ( requested_dvd.isPresent() ) {
-            System.out.println("DVD with ID " + id + " was found on DB");
             return requested_dvd;
         }
         else {
-            System.out.println(" DVD not found");
             throw new DVDNotFoundException(id);
         }
     }
 
-    public List<dvd> read(String name) {
-        return repository.findByName(name);
+    public Optional<dvd> read(String name) {
+        Optional<dvd> requested_dvd = repository.findByName(name);
+        if ( requested_dvd.isPresent() ) {
+            return requested_dvd;
+        }
+        else {
+            throw new DVDNotFoundException(name);
+        }
     }
 
-    public void create(Object new_dvd) {
-        dvd d = (dvd) new_dvd;
-        repository.save(d);
+    public void create(dvd new_dvd) {
+        repository.save(new_dvd);
     }
 
-    public void update() {
-        throw new NotYetImplementedException("This function has not yet been implemented");
-    }
+    public void update(long id, dvd updated_dvd) { // Method Performance ok ?
+        // ID EXISTS ?
+        if ( repository.existsById(id) ) {
+            log.info("DVD EXISTS");
+            // IS IT THE SAME OBJECT ?
+            dvd to_be_updated = repository.findById(id).get();
+            if ( to_be_updated.getName().equals(updated_dvd.getName()) ) {
+                log.info("IT IS SAME DVD");
+                // SET NEW FIELDS
+                if ( updated_dvd.getGenre() != "null" ) {
+                    log.info("UPDATING GENRE with " + updated_dvd.getGenre());
+                    to_be_updated.setGenre(updated_dvd.getGenre());
+                }
+/*                if ( updated_dvd.getReserve() != null ) {
+                    log.info("UPDATING RESERVE");
+                    to_be_updated.setReserve(updated_dvd.getReserve());
+                }*/
+                to_be_updated.setReserve(updated_dvd.getReserve());
+            }
+            else {
+                throw new DVDNotFoundException(id, updated_dvd.getName());
+            }
 
-    public void update(long id, Object updated_dvd) {
+        }
+        else {
+            throw new DVDNotFoundException(id);
+        }
+
     }
 
     public void delete(long id) {
-        repository.deleteById(id);
+        if ( repository.existsById(id) ) {
+            repository.deleteById(id);
+        }
+        else {
+            throw new DVDNotFoundException(id);
+        }
+
     }
 
 

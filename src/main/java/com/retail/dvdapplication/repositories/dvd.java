@@ -1,9 +1,7 @@
 package com.retail.dvdapplication.repositories;
 
-import jakarta.annotation.Nonnull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -11,20 +9,24 @@ import jakarta.persistence.Id;
 */
 
 @Entity
+@Table(name = "dvd", uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class dvd {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Nonnull
+    @Column(nullable=false)
     private String name;
-    private String genre;
+    private enum genre_type { Action, Romance, Comedy }
+    @Enumerated(EnumType.STRING)
+    private genre_type genre;
+    @PositiveOrZero(message = "DVD Reserves cannot be less than zero")
     private int reserve;
 
-    protected dvd() {}
+    public dvd() {}
 
-    dvd (String name, String genre, int reserve) {
+    public dvd (String name, String genre, int reserve) {
         this.name = name;
-        this.genre = genre;
+        this.genre = genre_type.valueOf(genre);
         this.reserve = reserve;
     }
 
@@ -34,7 +36,7 @@ public class dvd {
     }
 
     void setGenre(String genre) {
-        this.genre = genre;
+        this.genre = genre_type.valueOf(genre);
     }
 
     void setReserve(int reserve) {
@@ -42,19 +44,25 @@ public class dvd {
     }
 
     // GETTERS
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
-    String getGenre() {
-        return this.genre;
+    public String getGenre() {
+        return String.valueOf(this.genre);
     }
 
-    int getReserve() {
+    public int getReserve() {
         return this.reserve;
+    }
+
+    // UTILITY
+    @Override
+    public String toString() {
+        return "DVD {" + "id=" + this.id + ", name='" + this.name + '\'' + ", genre='" + this.genre + '\'' + ", reserve='" + this.reserve + '\'' + '}';
     }
 }
