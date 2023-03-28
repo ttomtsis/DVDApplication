@@ -1,8 +1,7 @@
 package com.retail.dvdapplication.repositories;
 
 import jakarta.persistence.*;
-
-import javax.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.PositiveOrZero;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -20,7 +19,7 @@ public class dvd {
     private enum genre_type { Action, Romance, Comedy }
     @Enumerated(EnumType.STRING)
     private genre_type genre;
-    @PositiveOrZero
+    @PositiveOrZero(message = "DVD Reserves cannot be less than zero")
     private int reserve;
 
     protected dvd() {}

@@ -24,7 +24,7 @@ public class DVDController {
         this.service = service;
     }
 
-    @PostMapping("/dvd")
+    @PostMapping("/dvd/new")
     public void create(@RequestBody dvd new_dvd) {
         service.create(new_dvd);
     }
@@ -46,12 +46,12 @@ public class DVDController {
         return service.read(name);
     }
 
-    @PutMapping("/dvd/{id}")
-    public void update_by_id(@PathVariable long id, @RequestBody Object updated_dvd) {
+    @PutMapping("/dvd/id/{id}")
+    public void update_by_id(@PathVariable long id, @RequestBody dvd updated_dvd) {
         service.update(id, updated_dvd);
     }
 
-    @DeleteMapping("dvd/{id}")
+    @DeleteMapping("dvd/id/{id}")
     public void delete_by_id(@PathVariable long id) {
         service.delete(id);
     }

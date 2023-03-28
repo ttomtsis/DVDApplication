@@ -10,7 +10,6 @@ import java.util.List;
 * Implemented by DVDService
 */
 @Repository
-public
 interface DVDRepository extends JpaRepository<dvd, Long> {
     List<dvd> findByName(String name);
 }
