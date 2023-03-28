@@ -1,7 +1,8 @@
 package com.retail.dvdapplication.repositories;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
+
+import javax.validation.constraints.PositiveOrZero;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -9,21 +10,24 @@ import jakarta.persistence.*;
 */
 
 @Entity
+@Table(name = "dvd", uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class dvd {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Nonnull
-    @Column(unique=true)
+    @Column(nullable=false)
     private String name;
-    private String genre;
+    private enum genre_type { Action, Romance, Comedy }
+    @Enumerated(EnumType.STRING)
+    private genre_type genre;
+    @PositiveOrZero
     private int reserve;
 
     protected dvd() {}
 
     dvd (String name, String genre, int reserve) {
         this.name = name;
-        this.genre = genre;
+        this.genre = genre_type.valueOf(genre);
         this.reserve = reserve;
     }
 
@@ -33,7 +37,7 @@ public class dvd {
     }
 
     void setGenre(String genre) {
-        this.genre = genre;
+        this.genre = genre_type.valueOf(genre);
     }
 
     void setReserve(int reserve) {
@@ -50,7 +54,7 @@ public class dvd {
     }
 
     String getGenre() {
-        return this.genre;
+        return String.valueOf(this.genre);
     }
 
     int getReserve() {
