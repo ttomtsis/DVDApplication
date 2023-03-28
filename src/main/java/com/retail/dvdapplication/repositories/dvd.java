@@ -22,9 +22,9 @@ public class dvd {
     @PositiveOrZero(message = "DVD Reserves cannot be less than zero")
     private int reserve;
 
-    protected dvd() {}
+    public dvd() {}
 
-    dvd (String name, String genre, int reserve) {
+    public dvd (String name, String genre, int reserve) {
         this.name = name;
         this.genre = genre_type.valueOf(genre);
         this.reserve = reserve;
@@ -44,19 +44,19 @@ public class dvd {
     }
 
     // GETTERS
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
-    String getGenre() {
+    public String getGenre() {
         return String.valueOf(this.genre);
     }
 
-    int getReserve() {
+    public int getReserve() {
         return this.reserve;
     }
 

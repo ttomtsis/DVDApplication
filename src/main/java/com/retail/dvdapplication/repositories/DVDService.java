@@ -2,7 +2,6 @@ package com.retail.dvdapplication.repositories;
 
 import com.retail.dvdapplication.exceptions.DVDNotFoundException;
 import jakarta.transaction.Transactional;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,33 +26,31 @@ public class DVDService {
 
     private static final Logger log = LoggerFactory.getLogger("Query Response");
     public List<dvd> read() {
-        log.info(repository.findAll().toString());
         return repository.findAll();
     }
 
     public Optional<dvd> read(long id) {
-        log.info("inside method");
         Optional<dvd> requested_dvd = repository.findById(id);
         if ( requested_dvd.isPresent() ) {
-            System.out.println("DVD with ID " + id + " was found on DB");
             return requested_dvd;
         }
         else {
-            System.out.println(" DVD not found");
             throw new DVDNotFoundException(id);
         }
     }
 
-    public List<dvd> read(String name) {
-        return repository.findByName(name);
+    public Optional<dvd> read(String name) {
+        Optional<dvd> requested_dvd = repository.findByName(name);
+        if ( requested_dvd.isPresent() ) {
+            return requested_dvd;
+        }
+        else {
+            throw new DVDNotFoundException(name);
+        }
     }
 
     public void create(dvd new_dvd) {
         repository.save(new_dvd);
-    }
-
-    public void update() {
-        throw new NotYetImplementedException("This function has not yet been implemented");
     }
 
     public void update(long id, dvd updated_dvd) { // Method Performance ok ?
@@ -76,18 +73,24 @@ public class DVDService {
                 to_be_updated.setReserve(updated_dvd.getReserve());
             }
             else {
-                // THROW InvalidDVDException
+                throw new DVDNotFoundException(id, updated_dvd.getName());
             }
 
         }
         else {
-            // THROW DVDNotFoundException
+            throw new DVDNotFoundException(id);
         }
 
     }
 
     public void delete(long id) {
-        repository.deleteById(id);
+        if ( repository.existsById(id) ) {
+            repository.deleteById(id);
+        }
+        else {
+            throw new DVDNotFoundException(id);
+        }
+
     }
 
 

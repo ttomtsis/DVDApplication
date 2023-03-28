@@ -3,7 +3,7 @@ package com.retail.dvdapplication.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 /*
 * Provides methods for CRUD operations on dvd objects
@@ -11,5 +11,5 @@ import java.util.List;
 */
 @Repository
 interface DVDRepository extends JpaRepository<dvd, Long> {
-    List<dvd> findByName(String name);
+    Optional<dvd> findByName(String name);
 }

@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.controllers;
 
-import com.retail.dvdapplication.repositories.dvd;
 import com.retail.dvdapplication.repositories.DVDService;
+import com.retail.dvdapplication.repositories.dvd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +31,6 @@ public class DVDController {
 
     @GetMapping("/dvd/all")
     public List<dvd> read_all() {
-        List<dvd> a = service.read();
-        log.info(a.toString());
         return service.read();
     }
 
@@ -42,7 +40,7 @@ public class DVDController {
     }
 
     @GetMapping("/dvd/name/{name}")
-    public List<dvd> read_by_name(@PathVariable String name) {
+    public Optional<dvd> read_by_name(@PathVariable String name) {
         return service.read(name);
     }
 

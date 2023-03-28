@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class DVDNotFoundAdvice {
+public class JakartaValidationConstraintViolationAdvice {
 
     @ResponseBody
-    @ExceptionHandler(DVDNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String DVDNotFoundHandler(DVDNotFoundException ex) {
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String IntegrityViolationHandler(jakarta.validation.ConstraintViolationException ex) {
         return ex.getMessage();
     }
 }
