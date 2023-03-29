@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /*
-* Provides methods for CRUD operations on dvd objects
+* Provides methods for CRUD operations on DVD objects
 * Implemented by DVDService
 */
 @Repository
-public interface DVDRepository extends JpaRepository<dvd, Long> {
-    Optional<dvd> findByName(String name);
+public interface DVDRepository extends JpaRepository<DVD, Long> {
+    Optional<DVD> findByName(String name);
 }

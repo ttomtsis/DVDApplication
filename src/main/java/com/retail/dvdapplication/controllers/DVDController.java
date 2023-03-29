@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.controllers;
 
+import com.retail.dvdapplication.repositories.DVD;
 import com.retail.dvdapplication.services.DVDService;
-import com.retail.dvdapplication.repositories.dvd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -25,27 +25,27 @@ public class DVDController {
     }
 
     @PostMapping("/dvd/new")
-    public void create(@RequestBody dvd new_dvd) {
+    public void create(@RequestBody DVD new_dvd) {
         service.create(new_dvd);
     }
 
     @GetMapping("/dvd/all")
-    public List<dvd> read_all() {
+    public List<DVD> read_all() {
         return service.read();
     }
 
     @GetMapping("/dvd/id/{id}")
-    public Optional<dvd> read_by_id(@PathVariable long id) {
+    public Optional<DVD> read_by_id(@PathVariable long id) {
         return service.read(id);
     }
 
     @GetMapping("/dvd/name/{name}")
-    public Optional<dvd> read_by_name(@PathVariable String name) {
+    public Optional<DVD> read_by_name(@PathVariable String name) {
         return service.read(name);
     }
 
     @PutMapping("/dvd/id/{id}")
-    public void update_by_id(@PathVariable long id, @RequestBody dvd updated_dvd) {
+    public void update_by_id(@PathVariable long id, @RequestBody DVD updated_dvd) {
         service.update(id, updated_dvd);
     }
 
