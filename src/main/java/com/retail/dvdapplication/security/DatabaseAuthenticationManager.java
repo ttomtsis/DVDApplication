@@ -38,9 +38,11 @@ public class DatabaseAuthenticationManager implements AuthenticationManager {
         log.info("Username: " + username + " Password: " + password);
 
         if (username.isEmpty()) {
+            log.info("No username provided");
             throw new InsufficientAuthenticationException("No username provided");
         }
         if (password.isEmpty()) {
+            log.info("No password provided");
             throw new InsufficientAuthenticationException("No password provided");
         }
         if (repository.findByNameAndPassword(username, password) != null) {

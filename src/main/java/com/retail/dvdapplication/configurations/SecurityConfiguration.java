@@ -43,6 +43,7 @@ public class SecurityConfiguration {
         http.addFilter(base_auth_filter);
 
         http.addFilter(new ExceptionTranslationFilter(customAuthenticationEntryPoint));
+        
         return http.build();
     }
 
