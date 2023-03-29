@@ -1,6 +1,6 @@
 package com.retail.dvdapplication.controllers;
 
-import com.retail.dvdapplication.repositories.DVDService;
+import com.retail.dvdapplication.services.DVDService;
 import com.retail.dvdapplication.repositories.dvd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

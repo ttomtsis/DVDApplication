@@ -10,6 +10,6 @@ import java.util.Optional;
 * Implemented by DVDService
 */
 @Repository
-interface DVDRepository extends JpaRepository<dvd, Long> {
+public interface DVDRepository extends JpaRepository<dvd, Long> {
     Optional<dvd> findByName(String name);
 }

@@ -31,15 +31,15 @@ public class dvd {
     }
 
     // SETTERS
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre_type.valueOf(genre);
     }
 
-    void setReserve(int reserve) {
+    public void setReserve(int reserve) {
         this.reserve = reserve;
     }
 

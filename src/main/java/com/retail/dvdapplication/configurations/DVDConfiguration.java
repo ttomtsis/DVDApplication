@@ -1,4 +1,4 @@
-package com.retail.dvdapplication;
+package com.retail.dvdapplication.configurations;
 
 import org.springframework.context.annotation.Configuration;
 

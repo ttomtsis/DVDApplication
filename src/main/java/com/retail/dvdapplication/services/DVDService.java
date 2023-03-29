@@ -1,6 +1,8 @@
-package com.retail.dvdapplication.repositories;
+package com.retail.dvdapplication.services;
 
 import com.retail.dvdapplication.exceptions.DVDNotFoundException;
+import com.retail.dvdapplication.repositories.DVDRepository;
+import com.retail.dvdapplication.repositories.dvd;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
