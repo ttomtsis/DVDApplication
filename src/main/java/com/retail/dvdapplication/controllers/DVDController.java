@@ -24,37 +24,37 @@ public class DVDController {
         this.service = service;
     }
 
-    @PostMapping("/dvd/new")
+    @PostMapping("/dvd/create")
     public void create(@RequestBody DVD new_dvd) {
+        log.info("NEW CREATION REQUEST");
         service.create(new_dvd);
     }
 
-    @GetMapping("/dvd/all")
+    @GetMapping("/dvd/search/all")
     public List<DVD> read_all() {
         return service.read();
     }
 
-    @GetMapping("/dvd/id/{id}")
+    @GetMapping("/dvd/search/id/{id}")
     public Optional<DVD> read_by_id(@PathVariable long id) {
         return service.read(id);
     }
 
-    @GetMapping("/dvd/name/{name}")
+    @GetMapping("/dvd/search/name/{name}")
     public Optional<DVD> read_by_name(@PathVariable String name) {
         return service.read(name);
     }
 
-    @PutMapping("/dvd/id/{id}")
+    @PutMapping("/dvd/update/id/{id}")
     public void update_by_id(@PathVariable long id, @RequestBody DVD updated_dvd) {
         service.update(id, updated_dvd);
     }
 
-    @DeleteMapping("dvd/id/{id}")
+    @DeleteMapping("dvd/delete/id/{id}")
     public void delete_by_id(@PathVariable long id) {
         service.delete(id);
     }
 
-    // public or default access modifier?
     public DVDService getService() {
         return service;
     }

@@ -35,15 +35,19 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/**").hasRole("USER")
+                                .requestMatchers("/**").permitAll()
                 )
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults())
+
+                .csrf().disable();
+/*              .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());*/
 
         BasicAuthenticationFilter base_auth_filter = new BasicAuthenticationFilter(manager);
         http.addFilter(base_auth_filter);
 
         http.addFilter(new ExceptionTranslationFilter(customAuthenticationEntryPoint));
-        
+
         return http.build();
     }
 

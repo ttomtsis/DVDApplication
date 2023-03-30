@@ -26,7 +26,7 @@ public class DVDService {
         this.repository = repository;
     }
 
-    private static final Logger log = LoggerFactory.getLogger("Query Response");
+    private static final Logger log = LoggerFactory.getLogger("SERVICE RESPONSE");
     public List<DVD> read() {
         return repository.findAll();
     }
@@ -52,6 +52,7 @@ public class DVDService {
     }
 
     public void create(DVD new_dvd) {
+        log.info("DVD CREATION REQUEST RECEIVED");
         repository.save(new_dvd);
     }
 

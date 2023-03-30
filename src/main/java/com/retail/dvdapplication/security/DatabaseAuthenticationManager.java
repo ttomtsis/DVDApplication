@@ -1,5 +1,7 @@
 package com.retail.dvdapplication.security;
 
+/* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
+
 import com.retail.dvdapplication.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
-
-/* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
 
 @Component
 public class DatabaseAuthenticationManager implements AuthenticationManager {
