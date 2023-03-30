@@ -10,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "dvd", uniqueConstraints=@UniqueConstraint(columnNames="name"))
-public class dvd {
+public class DVD {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -22,24 +22,24 @@ public class dvd {
     @PositiveOrZero(message = "DVD Reserves cannot be less than zero")
     private int reserve;
 
-    public dvd() {}
+    public DVD() {}
 
-    public dvd (String name, String genre, int reserve) {
+    public DVD(String name, String genre, int reserve) {
         this.name = name;
         this.genre = genre_type.valueOf(genre);
         this.reserve = reserve;
     }
 
     // SETTERS
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre_type.valueOf(genre);
     }
 
-    void setReserve(int reserve) {
+    public void setReserve(int reserve) {
         this.reserve = reserve;
     }
 

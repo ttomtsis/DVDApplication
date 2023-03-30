@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.controllers;
 
-import com.retail.dvdapplication.repositories.DVDService;
-import com.retail.dvdapplication.repositories.dvd;
+import com.retail.dvdapplication.repositories.DVD;
+import com.retail.dvdapplication.services.DVDService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -24,37 +24,37 @@ public class DVDController {
         this.service = service;
     }
 
-    @PostMapping("/dvd/new")
-    public void create(@RequestBody dvd new_dvd) {
+    @PostMapping("/dvd/create")
+    public void create(@RequestBody DVD new_dvd) {
+        log.info("NEW CREATION REQUEST");
         service.create(new_dvd);
     }
 
-    @GetMapping("/dvd/all")
-    public List<dvd> read_all() {
+    @GetMapping("/dvd/search/all")
+    public List<DVD> read_all() {
         return service.read();
     }
 
-    @GetMapping("/dvd/id/{id}")
-    public Optional<dvd> read_by_id(@PathVariable long id) {
+    @GetMapping("/dvd/search/id/{id}")
+    public Optional<DVD> read_by_id(@PathVariable long id) {
         return service.read(id);
     }
 
-    @GetMapping("/dvd/name/{name}")
-    public Optional<dvd> read_by_name(@PathVariable String name) {
+    @GetMapping("/dvd/search/name/{name}")
+    public Optional<DVD> read_by_name(@PathVariable String name) {
         return service.read(name);
     }
 
-    @PutMapping("/dvd/id/{id}")
-    public void update_by_id(@PathVariable long id, @RequestBody dvd updated_dvd) {
+    @PutMapping("/dvd/update/id/{id}")
+    public void update_by_id(@PathVariable long id, @RequestBody DVD updated_dvd) {
         service.update(id, updated_dvd);
     }
 
-    @DeleteMapping("dvd/id/{id}")
+    @DeleteMapping("dvd/delete/id/{id}")
     public void delete_by_id(@PathVariable long id) {
         service.delete(id);
     }
 
-    // public or default access modifier?
     public DVDService getService() {
         return service;
     }

@@ -1,6 +1,8 @@
-package com.retail.dvdapplication.repositories;
+package com.retail.dvdapplication.services;
 
 import com.retail.dvdapplication.exceptions.DVDNotFoundException;
+import com.retail.dvdapplication.repositories.DVD;
+import com.retail.dvdapplication.repositories.DVDRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +26,13 @@ public class DVDService {
         this.repository = repository;
     }
 
-    private static final Logger log = LoggerFactory.getLogger("Query Response");
-    public List<dvd> read() {
+    private static final Logger log = LoggerFactory.getLogger("SERVICE RESPONSE");
+    public List<DVD> read() {
         return repository.findAll();
     }
 
-    public Optional<dvd> read(long id) {
-        Optional<dvd> requested_dvd = repository.findById(id);
+    public Optional<DVD> read(long id) {
+        Optional<DVD> requested_dvd = repository.findById(id);
         if ( requested_dvd.isPresent() ) {
             return requested_dvd;
         }
@@ -39,8 +41,8 @@ public class DVDService {
         }
     }
 
-    public Optional<dvd> read(String name) {
-        Optional<dvd> requested_dvd = repository.findByName(name);
+    public Optional<DVD> read(String name) {
+        Optional<DVD> requested_dvd = repository.findByName(name);
         if ( requested_dvd.isPresent() ) {
             return requested_dvd;
         }
@@ -49,16 +51,17 @@ public class DVDService {
         }
     }
 
-    public void create(dvd new_dvd) {
+    public void create(DVD new_dvd) {
+        log.info("DVD CREATION REQUEST RECEIVED");
         repository.save(new_dvd);
     }
 
-    public void update(long id, dvd updated_dvd) { // Method Performance ok ?
+    public void update(long id, DVD updated_dvd) { // Method Performance ok ?
         // ID EXISTS ?
         if ( repository.existsById(id) ) {
             log.info("DVD EXISTS");
             // IS IT THE SAME OBJECT ?
-            dvd to_be_updated = repository.findById(id).get();
+            DVD to_be_updated = repository.findById(id).get();
             if ( to_be_updated.getName().equals(updated_dvd.getName()) ) {
                 log.info("IT IS SAME DVD");
                 // SET NEW FIELDS

@@ -46,6 +46,19 @@
             <scope>test</scope>
         </dependency>
 
+        <!--> Spring Boot Security </!-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--> Spring Security Core </!-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>6.0.2</version>
+        </dependency>
+
         <!--> Spring Data JPA </!-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
