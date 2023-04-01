@@ -1,5 +1,7 @@
 package com.retail.dvdapplication.security;
 
+/* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
+
 import com.retail.dvdapplication.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
-
-/* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
 
 @Component
 public class DatabaseAuthenticationManager implements AuthenticationManager {
@@ -38,9 +38,11 @@ public class DatabaseAuthenticationManager implements AuthenticationManager {
         log.info("Username: " + username + " Password: " + password);
 
         if (username.isEmpty()) {
+            log.info("No username provided");
             throw new InsufficientAuthenticationException("No username provided");
         }
         if (password.isEmpty()) {
+            log.info("No password provided");
             throw new InsufficientAuthenticationException("No password provided");
         }
         if (repository.findByNameAndPassword(username, password) != null) {

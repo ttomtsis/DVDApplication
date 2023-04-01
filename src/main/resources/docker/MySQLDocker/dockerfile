@@ -1,0 +1,6 @@
+FROM mysql:8.0.32
+
+LABEL maintainer="Docker community and MySQL team"
+LABEL author="Thomas Tomtsis, icsd15201@icsd.aegean.gr"
+LABEL descritpion="Simple MySQL image for use with DVDApplication"
+
