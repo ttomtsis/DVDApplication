@@ -18,4 +18,4 @@ docker rmi dvd_spring_server:latest
 docker rmi dvd_mysql_server:latest
 
 # Delete volume
-docker volume rm mydb_volume
+docker volume rm docker_mydb_volume
