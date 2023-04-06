@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.configurations;
 
-import com.retail.dvdapplication.repositories.User;
-import com.retail.dvdapplication.repositories.UserRepository;
+import com.retail.dvdapplication.repositories.Employee;
+import com.retail.dvdapplication.repositories.EmployeeRepository;
 import com.retail.dvdapplication.security.DatabaseAuthenticationManager;
 import com.retail.dvdapplication.security.MyBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +19,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     private MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private UserRepository repository;
+    private EmployeeRepository repository;
     private DatabaseAuthenticationManager manager;
 
     SecurityConfiguration( DatabaseAuthenticationManager manager,
                            MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint,
-                           UserRepository repository) {
+                           EmployeeRepository repository) {
         this.manager = manager;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.repository = repository;
@@ -54,11 +54,11 @@ public class SecurityConfiguration {
     @Bean
     public void createUsers() {
         if ( repository.findByName("icsd15201") == null ) {
-            repository.save(new User("icsd15201", "password"));
+            repository.save(new Employee("icsd15201", "password"));
 
         }
         if ( repository.findByName("t") == null ) {
-            repository.save(new User("t", "t"));
+            repository.save(new Employee("t", "t"));
         }
     }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames="name"))
-public class User {
+public class Employee {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,9 +13,9 @@ public class User {
     @Column(nullable=false)
     private String password;
 
-    public User() {}
+    public Employee() {}
 
-    public User(String name, String password) {
+    public Employee(String name, String password) {
      this.name = name;
      this.password = password;
     }

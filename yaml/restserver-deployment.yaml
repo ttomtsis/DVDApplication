@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-server-deployment
+  labels:
+    app: rest-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-server
+      tier: server
+  template:
+    metadata:
+      name: rest-server-pod
+      labels:
+        app: rest-server
+        tier: server
+    spec:
+      containers:
+        - name: dvd-spring-server
+          image: ttomtsis/dvd-spring-server:latest
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "cluster"
+
+            - name: DB_USERNAME
+              value: "icsd15201"
+
+            - name: DB_PASSWORD
+              value: "password132"
+
+            - name: DATASOURCE_URL
+              value: "jdbc:mysql://mysql-service:3306/mydb"
