@@ -1,0 +1,29 @@
+# Volume configuration
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-volume
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    # Created at minikube node /mysql/db directory
+    path: /mysql/db
+
+---
+
+# Volume's Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-volume-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

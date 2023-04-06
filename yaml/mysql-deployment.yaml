@@ -20,6 +20,9 @@ spec:
       containers:
         - name: dvd-mysql
           image: mysql:8.0.32
+          volumeMounts:
+            - name: db-volume
+              mountPath: /var/lib/mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "icsd15201"
@@ -35,3 +38,7 @@ spec:
 
             - name: MYSQL_TCP_PORT
               value: "3306"
+      volumes:
+      - name: db-volume
+        persistentVolumeClaim:
+          claimName: db-volume-claim
