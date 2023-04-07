@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-clusterling
+spec:
+  # Headless service name
+  serviceName: "mysql-service"
+  replicas: 1
+  # Why is a selector used here ?
+  selector:
+    matchLabels:
+      app: mysql-server
+      tier: database
+  # Template for new pods
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+        tier: database
+    spec:
+      containers:
+      - name: dvd-mysql
+        image: mysql:8.0.32
+        volumeMounts:
+        - name: db-volume
+          mountPath: /var/lib/mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "icsd15201"
+
+          - name: MYSQL_USER
+            value: "icsd15201"
+
+          - name: MYSQL_PASSWORD
+            value: "password132"
+
+          - name: MYSQL_DATABASE
+            value: "mydb"
+
+          - name: MYSQL_TCP_PORT
+            value: "3306"
+  volumeClaimTemplates:
+  - metadata:
+      name: db-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

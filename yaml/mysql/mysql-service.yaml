@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: mysql-service
 spec:
+  clusterIP: None
   selector:
     app: mysql-server
     tier: database
@@ -10,4 +11,3 @@ spec:
     - protocol: 'TCP'
       port: 3306
       targetPort: 3306
-  type: ClusterIP
