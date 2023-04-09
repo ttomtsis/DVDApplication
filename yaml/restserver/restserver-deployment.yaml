@@ -31,4 +31,4 @@ spec:
               value: "password132"
 
             - name: DATASOURCE_URL
-              value: "jdbc:mysql://mysql-router-service:6447/mydb"
+              value: "jdbc:mysql://mysql-router-service:6446/mydb"
