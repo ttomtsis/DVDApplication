@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-router-service
+spec:
+  clusterIP: None
+  selector:
+    app: mysql-server
+    tier: router
+  ports:
+    - name: port-6446
+      protocol: 'TCP'
+      port: 6446
+      targetPort: 6446
+    - name: port-6447
+      protocol: 'TCP'
+      port: 6447
+      targetPort: 6447
+    - name: port-6448
+      protocol: 'TCP'
+      port: 6448
+      targetPort: 6448
+    - name: port-6449
+      protocol: 'TCP'
+      port: 6449
+      targetPort: 6449

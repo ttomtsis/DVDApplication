@@ -1,0 +1,36 @@
+apiVersion:  apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-router
+spec:
+  serviceName: "mysql-router-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-server
+      tier: router
+  template:
+    metadata:
+      labels:
+        app: mysql-server
+        tier: router
+    spec:
+      setHostnameAsFQDN: true
+      containers:
+      - name: dvd-mysql-router
+        image: mysql/mysql-router:8.0
+        env:
+          - name: MYSQL_HOST
+            value: "mysql-clusterling-0.mysql-service.default.svc.cluster.local"
+
+          - name: MYSQL_USER
+            value: "root"
+
+          - name: MYSQL_PASSWORD
+            value: "icsd15201"
+
+          - name: MYSQL_PORT
+            value: "3306"
+
+          - name: MYSQL_CREATE_ROUTER_USER
+            value: "1"
