@@ -9,5 +9,3 @@ the DVD's in the video store they work
 **Implementation**: Basic REST API made with Spring Boot and MySQL Database, containerized with Docker
 and will be later deployed with Kubernetes. The Application simply performs CRUD operations
 on the database upon request.
-
-Made with <3 ( NOT )
