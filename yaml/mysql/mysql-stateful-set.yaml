@@ -20,31 +20,42 @@ spec:
     spec:
       setHostnameAsFQDN: true
       containers:
-      - name: dvd-mysql
-        image: mysql:8.0.32
-        volumeMounts:
-        - name: db-volume
-          mountPath: /var/lib/mysql
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            value: "icsd15201"
+        - name: dvd-mysql
+          image: mysql:8.0.32
+          volumeMounts:
+            - name: db-volume
+              mountPath: /var/lib/mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "icsd15201"
 
-          - name: MYSQL_USER
-            value: "icsd15201"
+            - name: MYSQL_USER
+              value: "icsd15201"
 
-          - name: MYSQL_PASSWORD
-            value: "password132"
+            - name: MYSQL_PASSWORD
+              value: "password132"
 
-          - name: MYSQL_DATABASE
-            value: "mydb"
+            - name: MYSQL_DATABASE
+              value: "mydb"
 
-          - name: MYSQL_TCP_PORT
-            value: "3306"
+            - name: MYSQL_TCP_PORT
+              value: "3306"
+          readinessProbe:
+            exec:
+              command:
+                - mysqlsh
+                - --js
+                - -u
+                - root
+                - -picsd15201
+                - --execute=println('Hello World')
+            initialDelaySeconds: 5
+            periodSeconds: 2
   volumeClaimTemplates:
-  - metadata:
-      name: db-volume
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: db-volume
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

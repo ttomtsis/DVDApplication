@@ -32,3 +32,9 @@ spec:
 
             - name: DATASOURCE_URL
               value: "jdbc:mysql://mysql-router-service:6446/mydb"
+          readinessProbe:
+            httpGet:
+              path: /api/dvd/search/all
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2
