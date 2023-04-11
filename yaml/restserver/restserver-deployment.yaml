@@ -22,7 +22,7 @@ spec:
           image: ttomtsis/dvd-spring-server:latest
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "cluster"
+              value: "containerized"
 
             - name: DB_USERNAME
               value: "icsd15201"

@@ -7,6 +7,6 @@ COPY . /opt/DVDApplication
 ENV DATASOURCE_URL=jdbc:mysql://dvd_mysql:3306/mydb \
     DB_USERNAME=icsd15201  \
     DB_PASSWORD=password132  \
-    SPRING_PROFILES_ACTIVE=docker
+    SPRING_PROFILES_ACTIVE=containerized
 
 CMD ["java", "-jar", "/opt/DVDApplication/DVDApplication-0.0.1-SNAPSHOT.jar"]
