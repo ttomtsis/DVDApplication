@@ -27,11 +27,11 @@ public class DVDService {
     }
 
     private static final Logger log = LoggerFactory.getLogger("DVD Service");
-    public List<DVD> read() {
+    public List<DVD> searchAllDVDs() {
         return repository.findAll();
     }
 
-    public Optional<DVD> read(long id) {
+    public Optional<DVD> searchDVDByID(long id) {
         Optional<DVD> requested_dvd = repository.findById(id);
         if ( requested_dvd.isPresent() ) {
             return requested_dvd;
@@ -41,43 +41,23 @@ public class DVDService {
         }
     }
 
-    public Optional<DVD> read(String name) {
-        Optional<DVD> requested_dvd = repository.findByName(name);
-        if ( requested_dvd.isPresent() ) {
-            return requested_dvd;
-        }
-        else {
-            throw new DVDNotFoundException(name);
-        }
-    }
-
-    public void create(DVD new_dvd) {
-        log.info("DVD CREATION REQUEST RECEIVED");
+    public void createDVD(DVD new_dvd) {
         repository.save(new_dvd);
     }
 
-    public void update(long id, DVD updated_dvd) { // Method Performance ok ?
-        // ID EXISTS ?
+    public void updateDVDByID(long id, DVD updated_dvd) { // Method Performance ok ?
         if ( repository.existsById(id) ) {
-            log.info("DVD EXISTS");
-            // IS IT THE SAME OBJECT ?
             DVD to_be_updated = repository.findById(id).get();
-            if ( to_be_updated.getName().equals(updated_dvd.getName()) ) {
-                log.info("IT IS SAME DVD");
-                // SET NEW FIELDS
-                if ( updated_dvd.getGenre() != "null" ) {
-                    log.info("UPDATING GENRE with " + updated_dvd.getGenre());
-                    to_be_updated.setGenre(updated_dvd.getGenre());
-                }
-/*                if ( updated_dvd.getReserve() != null ) {
-                    log.info("UPDATING RESERVE");
-                    to_be_updated.setReserve(updated_dvd.getReserve());
-                }*/
+
+            // SET NEW FIELDS
+            if ( updated_dvd.getGenre() != "null" ) {
+                to_be_updated.setGenre(updated_dvd.getGenre());
+            }
+            // Check github issue #1 https://github.com/ttomtsis/DVDApplication/issues/1
+           if ( updated_dvd.getReserve() != 0 ) {
                 to_be_updated.setReserve(updated_dvd.getReserve());
             }
-            else {
-                throw new DVDNotFoundException(id, updated_dvd.getName());
-            }
+            to_be_updated.setReserve(updated_dvd.getReserve());
 
         }
         else {
@@ -86,7 +66,7 @@ public class DVDService {
 
     }
 
-    public void delete(long id) {
+    public void deleteDVDByID(long id) {
         if ( repository.existsById(id) ) {
             repository.deleteById(id);
         }
