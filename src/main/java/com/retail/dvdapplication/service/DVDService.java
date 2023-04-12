@@ -1,8 +1,8 @@
-package com.retail.dvdapplication.services;
+package com.retail.dvdapplication.service;
 
-import com.retail.dvdapplication.exceptions.DVDNotFoundException;
-import com.retail.dvdapplication.repositories.DVD;
-import com.retail.dvdapplication.repositories.DVDRepository;
+import com.retail.dvdapplication.exception.DVDNotFoundException;
+import com.retail.dvdapplication.domain.DVD;
+import com.retail.dvdapplication.repository.DVDRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class DVDService {
         this.repository = repository;
     }
 
-    private static final Logger log = LoggerFactory.getLogger("SERVICE RESPONSE");
+    private static final Logger log = LoggerFactory.getLogger("DVD Service");
     public List<DVD> read() {
         return repository.findAll();
     }

@@ -1,4 +1,4 @@
-package com.retail.dvdapplication.exceptions;
+package com.retail.dvdapplication.exception;
 
 public class DVDNotFoundException extends RuntimeException {
 

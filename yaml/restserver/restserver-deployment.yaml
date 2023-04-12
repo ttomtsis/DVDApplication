@@ -22,7 +22,7 @@ spec:
           image: ttomtsis/dvd-spring-server:latest
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "cluster"
+              value: "containerized"
 
             - name: DB_USERNAME
               value: "icsd15201"
@@ -31,4 +31,10 @@ spec:
               value: "password132"
 
             - name: DATASOURCE_URL
-              value: "jdbc:mysql://mysql-router-service:6447/mydb"
+              value: "jdbc:mysql://mysql-router-service:6446/mydb"
+          readinessProbe:
+            httpGet:
+              path: /api/dvd/search/all
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2

@@ -100,6 +100,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <imageName>localhost:8080/dvdapplication</imageName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

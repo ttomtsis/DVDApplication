@@ -1,5 +1,6 @@
-package com.retail.dvdapplication.repositories;
+package com.retail.dvdapplication.repository;
 
+import com.retail.dvdapplication.domain.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {

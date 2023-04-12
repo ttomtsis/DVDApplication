@@ -1,9 +1,9 @@
-package com.retail.dvdapplication.repositories;
+package com.retail.dvdapplication.domain;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user", uniqueConstraints=@UniqueConstraint(columnNames="name"))
+@Table(name = "Employee", uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class Employee {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

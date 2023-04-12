@@ -1,6 +1,6 @@
-package com.retail.dvdapplication.configurations;
+package com.retail.dvdapplication.configuration;
 
-import com.retail.dvdapplication.repositories.EmployeeRepository;
+import com.retail.dvdapplication.repository.EmployeeRepository;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

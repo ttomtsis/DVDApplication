@@ -1,7 +1,7 @@
-package com.retail.dvdapplication.configurations;
+package com.retail.dvdapplication.configuration;
 
-import com.retail.dvdapplication.repositories.Employee;
-import com.retail.dvdapplication.repositories.EmployeeRepository;
+import com.retail.dvdapplication.domain.Employee;
+import com.retail.dvdapplication.repository.EmployeeRepository;
 import com.retail.dvdapplication.security.DatabaseAuthenticationManager;
 import com.retail.dvdapplication.security.MyBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -32,20 +30,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults())
-
                 .csrf().disable();
-/*              .csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());*/
 
-        BasicAuthenticationFilter base_auth_filter = new BasicAuthenticationFilter(manager);
-        http.addFilter(base_auth_filter);
-
+        http.addFilter(new BasicAuthenticationFilter(manager));
         http.addFilter(new ExceptionTranslationFilter(customAuthenticationEntryPoint));
 
         return http.build();
