@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-server-deployment
+  labels:
+    app: rest-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-server
+      tier: server
+  template:
+    metadata:
+      name: rest-server-pod
+      labels:
+        app: rest-server
+        tier: server
+    spec:
+      containers:
+        - name: dvd-spring-server
+          image: ttomtsis/dvd-spring-server:latest
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "containerized"
+
+            - name: DB_USERNAME
+              value: "icsd15201"
+
+            - name: DB_PASSWORD
+              value: "password132"
+
+            - name: DATASOURCE_URL
+              value: "jdbc:mysql://mysql-router-service:6446/mydb"
+          readinessProbe:
+            httpGet:
+              path: /api/dvd/search/all
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2

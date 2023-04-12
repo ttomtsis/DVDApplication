@@ -1,0 +1,12 @@
+FROM ibm-semeru-runtimes:open-17.0.6_10-jdk-focal
+LABEL MAINTAINER="IBM SEMERU RUNTIMES"
+LABEL AUTHOR="Thomas Tomtsis, icsd15201@icsd.aegean.gr"
+RUN mkdir /opt/DVDApplication
+COPY . /opt/DVDApplication
+
+ENV DATASOURCE_URL=jdbc:mysql://dvd_mysql:3306/mydb \
+    DB_USERNAME=icsd15201  \
+    DB_PASSWORD=password132  \
+    SPRING_PROFILES_ACTIVE=containerized
+
+CMD ["java", "-jar", "/opt/DVDApplication/DVDApplication-0.0.1-SNAPSHOT.jar"]

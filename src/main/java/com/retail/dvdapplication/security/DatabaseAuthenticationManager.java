@@ -2,7 +2,7 @@ package com.retail.dvdapplication.security;
 
 /* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
 
-import com.retail.dvdapplication.repositories.UserRepository;
+import com.retail.dvdapplication.repositories.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,17 +21,17 @@ import java.util.Collections;
 @Component
 public class DatabaseAuthenticationManager implements AuthenticationManager {
 
-    private UserRepository repository;
+    private EmployeeRepository repository;
     private static final Logger log = LoggerFactory.getLogger("DATABASE AUTHENTICATION MANAGER");
 
-    DatabaseAuthenticationManager (UserRepository repository) {
+    DatabaseAuthenticationManager (EmployeeRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
-        log.info("New User Login Request");
+        log.info("New Employee Login Request");
 
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
@@ -46,12 +46,12 @@ public class DatabaseAuthenticationManager implements AuthenticationManager {
             throw new InsufficientAuthenticationException("No password provided");
         }
         if (repository.findByNameAndPassword(username, password) != null) {
-            log.info("User Found");
+            log.info("Employee Found");
             Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
             return new UsernamePasswordAuthenticationToken(username, password, authorities);
         }
         else {
-            log.info("User not found");
+            log.info("Employee not found");
             throw new BadCredentialsException("Provided credentials are invalid");
         }
     }
