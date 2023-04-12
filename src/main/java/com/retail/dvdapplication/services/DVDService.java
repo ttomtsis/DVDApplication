@@ -1,6 +1,6 @@
 package com.retail.dvdapplication.services;
 
-import com.retail.dvdapplication.exceptions.DVDNotFoundException;
+import com.retail.dvdapplication.exception.DVDNotFoundException;
 import com.retail.dvdapplication.repositories.DVD;
 import com.retail.dvdapplication.repositories.DVDRepository;
 import jakarta.transaction.Transactional;
