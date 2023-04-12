@@ -2,7 +2,7 @@ package com.retail.dvdapplication.security;
 
 /* https://stackoverflow.com/questions/31826233/custom-authentication-manager-with-spring-security-and-java-configuration */
 
-import com.retail.dvdapplication.repositories.EmployeeRepository;
+import com.retail.dvdapplication.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;

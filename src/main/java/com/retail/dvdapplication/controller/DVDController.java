@@ -1,7 +1,7 @@
-package com.retail.dvdapplication.controllers;
+package com.retail.dvdapplication.controller;
 
-import com.retail.dvdapplication.repositories.DVD;
-import com.retail.dvdapplication.services.DVDService;
+import com.retail.dvdapplication.domain.DVD;
+import com.retail.dvdapplication.service.DVDService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

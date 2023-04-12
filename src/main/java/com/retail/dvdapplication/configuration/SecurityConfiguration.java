@@ -1,7 +1,7 @@
-package com.retail.dvdapplication.configurations;
+package com.retail.dvdapplication.configuration;
 
-import com.retail.dvdapplication.repositories.Employee;
-import com.retail.dvdapplication.repositories.EmployeeRepository;
+import com.retail.dvdapplication.domain.Employee;
+import com.retail.dvdapplication.repository.EmployeeRepository;
 import com.retail.dvdapplication.security.DatabaseAuthenticationManager;
 import com.retail.dvdapplication.security.MyBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
