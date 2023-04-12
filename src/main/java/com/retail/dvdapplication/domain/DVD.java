@@ -1,4 +1,4 @@
-package com.retail.dvdapplication.repositories;
+package com.retail.dvdapplication.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
