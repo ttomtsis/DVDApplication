@@ -26,7 +26,7 @@ public class DVDService {
         this.repository = repository;
     }
 
-    private static final Logger log = LoggerFactory.getLogger("SERVICE RESPONSE");
+    private static final Logger log = LoggerFactory.getLogger("DVD Service");
     public List<DVD> read() {
         return repository.findAll();
     }

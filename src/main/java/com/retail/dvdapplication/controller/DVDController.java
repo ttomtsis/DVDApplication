@@ -59,8 +59,4 @@ public class DVDController {
         return service;
     }
 
-    // implement setters and remove final?
-/*  public void setService( DVDService new_service){
-        this.service = new_service;
-    }*/
 }

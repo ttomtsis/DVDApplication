@@ -12,8 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -32,20 +30,16 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults())
-
                 .csrf().disable();
-/*              .csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());*/
 
-        BasicAuthenticationFilter base_auth_filter = new BasicAuthenticationFilter(manager);
-        http.addFilter(base_auth_filter);
-
+        http.addFilter(new BasicAuthenticationFilter(manager));
         http.addFilter(new ExceptionTranslationFilter(customAuthenticationEntryPoint));
 
         return http.build();
