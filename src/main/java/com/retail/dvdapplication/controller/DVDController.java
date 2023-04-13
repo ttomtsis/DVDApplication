@@ -19,42 +19,49 @@ import java.util.List;
 public class DVDController {
 
     private final DVDService service;
-    private static final Logger log = LoggerFactory.getLogger("DVD CONTROLLER");
+    private static final Logger log = LoggerFactory.getLogger("DVD Controller");
 
     public DVDController(DVDService service) {
         this.service = service;
     }
 
     @PostMapping("/dvds")
-    public ResponseEntity<String> createDVD(@RequestBody DVD new_dvd) {
-        log.info("New DVD Creation Request");
-        service.createDVD(new_dvd);
-        return new ResponseEntity<>("DVD Creation Successful!", HttpStatus.OK);
+    public ResponseEntity<DVD> createDVD(@RequestBody DVD new_dvd) {
+        log.info("New DVD Creation Request: " + new_dvd.toString());
+        DVD created = service.createDVD(new_dvd);
+        created.addLinks();
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/dvds")
-    public ResponseEntity<List<DVD>> returnAllDVDs() {
+    public ResponseEntity<List<DVD>> searchAllDVDs() {
         log.info("New DVD Search Request: Search All");
         List<DVD> dvd_list = service.searchAllDVDs();
+        for ( DVD d : dvd_list ) {
+            d.addLinks();
+        }
         return new ResponseEntity<>(dvd_list, HttpStatus.OK);
     }
 
     @GetMapping("/dvds/{id}")
     public ResponseEntity<DVD> searchDVDByID(@PathVariable long id) {
         log.info("New DVD Search Request: Search id - " + id);
-        DVD d = service.searchDVDByID(id).get();
-        return new ResponseEntity<>(d, HttpStatus.OK);
+        DVD dvd = service.searchDVDByID(id);
+        dvd.addLinks();
+        return new ResponseEntity<>(dvd, HttpStatus.OK);
     }
 
     @PutMapping("/dvds/{id}")
-    public ResponseEntity<String> updateDVDByID(@PathVariable long id, @RequestBody DVD updated_dvd) {
-        if ( updated_dvd.getGenre() == null && updated_dvd.getReserve() == 0 ){
-            return new ResponseEntity<>("Please provide the values that you want to update",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<DVD> updateDVDByID(@PathVariable long id, @RequestBody DVD newDVD) {
+        DVD updatedDVD = service.updateDVDByID(id, newDVD);
+        if ( updatedDVD == null ){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else {
             log.info("New DVD Update Request: Update DVD - " + id);
-            service.updateDVDByID(id, updated_dvd);
-            return new ResponseEntity<>("DVD with ID: " + id + " updated successfully",HttpStatus.OK);
+            service.updateDVDByID(id, newDVD);
+            updatedDVD.addLinks();
+            return new ResponseEntity<>(updatedDVD,HttpStatus.OK);
         }
     }
 
@@ -62,7 +69,7 @@ public class DVDController {
     public ResponseEntity<String> deleteDVDByID(@PathVariable long id) {
         log.info("New DVD Delete Request: Delete DVD - " + id);
         service.deleteDVDByID(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
