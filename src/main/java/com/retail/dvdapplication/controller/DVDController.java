@@ -1,6 +1,7 @@
 package com.retail.dvdapplication.controller;
 
 import com.retail.dvdapplication.domain.DVD;
+import com.retail.dvdapplication.exception.MissingRequiredDataException;
 import com.retail.dvdapplication.service.DVDService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,24 @@ public class DVDController {
     @GetMapping("/dvds")
     public ResponseEntity<List<DVD>> searchAllDVDs() {
         log.info("New DVD Search Request: Search All");
-        List<DVD> dvd_list = service.searchAllDVDs();
-        for ( DVD d : dvd_list ) {
+        List<DVD> searchResults = service.searchAllDVDs();
+        for ( DVD d : searchResults ) {
             d.addLinks();
         }
-        return new ResponseEntity<>(dvd_list, HttpStatus.OK);
+        return new ResponseEntity<>(searchResults, HttpStatus.OK);
+    }
+
+    @GetMapping("/dvds/search")
+    public ResponseEntity<List<DVD>> searchDVDByName(@RequestParam String name) {
+        if ( name.equals("") ) {
+            throw new MissingRequiredDataException();
+        }
+        log.info("New DVD Search Request: Search name - " + name);
+        List<DVD> searchResults = service.searchDVDByName(name);
+        for ( DVD d : searchResults ) {
+            d.addLinks();
+        }
+        return new ResponseEntity<>(searchResults, HttpStatus.OK);
     }
 
     @GetMapping("/dvds/{id}")

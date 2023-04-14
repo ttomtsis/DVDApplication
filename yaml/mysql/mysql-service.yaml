@@ -9,5 +9,5 @@ spec:
     tier: database
   ports:
     - protocol: 'TCP'
-      port: 3306
-      targetPort: 3306
+      port: 4306
+      targetPort: 4306

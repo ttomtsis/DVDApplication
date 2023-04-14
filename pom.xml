@@ -45,14 +45,6 @@
             <version>3.0.2</version>
         </dependency>
 
-        <!--> Glassfish - Jakarta Expression Language Implementation </!-->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
-            <version>5.0.0-M1</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--> Spring Boot Security </!-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,7 +100,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <imageName>localhost:8080/dvdapplication</imageName>
+                    <imageName>ttomtsis/dvd-spring-server:latest</imageName>
                 </configuration>
             </plugin>
         </plugins>

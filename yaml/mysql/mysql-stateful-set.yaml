@@ -5,7 +5,7 @@ metadata:
 spec:
   # Headless service name
   serviceName: "mysql-service"
-  replicas: 3
+  replicas: 1
   # Why is a selector used here ?
   selector:
     matchLabels:
@@ -39,7 +39,7 @@ spec:
               value: "mydb"
 
             - name: MYSQL_TCP_PORT
-              value: "3306"
+              value: "4306"
           readinessProbe:
             exec:
               command:

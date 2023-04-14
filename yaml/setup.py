@@ -37,9 +37,9 @@ def configureInstances():
     for x in range(0, db_desired_replicas, 1):
         os.system("echo Configuring mysql-clusterling-" + str(x))
 
-        command= """kubectl exec mysql-clusterling-""" + str(x) + """ -- mysqlsh --user=root --password=icsd15201 \
+        command= """kubectl exec mysql-clusterling-""" + str(x) + """ -- mysqlsh --user=root --password=icsd15201 --port=4306 \
         --execute="session.runSql('SET GLOBAL super_read_only = OFF;'); \
-         var data = {host: 'localhost', port:3306, user:'root', password: 'icsd15201'}; \
+         var data = {host: 'localhost', port:4306, user:'root', password: 'icsd15201'}; \
           var options = {interactive: false}; \
           dba.configureInstance(data,options);" """
 
@@ -61,14 +61,16 @@ def addInstancesToCluster():
         # Configure master node and create cluster
         if x==0:
             os.system("echo Configuring Master Node: mysql-clusterling-0")
-            command = """kubectl exec mysql-clusterling-0 -- mysqlsh -u 'root' --password=icsd15201 --execute="dba.createCluster('MyCluster');"""
+            command = """kubectl exec mysql-clusterling-0 -- mysqlsh -u 'root' --password=icsd15201 --port=4306 --execute="dba.createCluster('MyCluster');"""
         # Add instances to cluster
         else:
             os.system("echo Adding instance mysql-clusterling-" + str(x) + " to cluster")
-            command="""kubectl exec mysql-clusterling-0 -- mysqlsh -u 'root' --password=icsd15201 \
-            --execute="var cluster=dba.getCluster();\
-             var options = {recoveryMethod: 'clone'};\
-               cluster.addInstance('mysql-clusterling-"""+str(x)+""".mysql-service.default.svc.cluster.local', options);" """
+            command = """kubectl exec mysql-clusterling-0 -- mysqlsh -u root --password=icsd15201 --port=4306 \
+                      --execute="var cluster=dba.getCluster();\
+                       var options = {recoveryMethod: 'clone'};\
+                       cluster.addInstance('root:icsd15201@mysql-clusterling-""" + str(
+                x) + """.mysql-service.default.svc.cluster.local:4306', options);" """
+
         result = subprocess.run(command, shell=True)
         exit_code = result.returncode
         if int(exit_code) == 0:
@@ -79,14 +81,14 @@ def addInstancesToCluster():
 
             # Connect to instance through MySQL Shell and try to resolve the issue
             command="""kubectl exec mysql-clusterling-"""+str(x)+""" \
-            -- mysqlsh -u 'root' --password=icsd15201 --execute="\
+            -- mysqlsh -u 'root' --password=icsd15201 --port=4306 --execute="\
              session.runSql('STOP GROUP_REPLICATION;').execute(); \
              session.runSql('RESET MASTER;').execute(); \
              session.runSql('RESET REPLICA;').execute();" """
             result = subprocess.run(command, shell=True)
 
             # Re-connect to master node and try to add instance again.
-            command="""kubectl exec mysql-clusterling-0 -- mysqlsh -u 'root' --password=icsd15201 \
+            command="""kubectl exec mysql-clusterling-0 -- mysqlsh -u 'root' --password=icsd15201 --port=4306 \
             --execute="var cluster=dba.getCluster();\
              var options = {recoveryMethod: 'clone'};\
                cluster.addInstance('mysql-clusterling-"""+str(x)+""".mysql-service.default.svc.cluster.local', options);" """

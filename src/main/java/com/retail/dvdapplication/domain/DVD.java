@@ -24,7 +24,7 @@ public class DVD  extends RepresentationModel<DVD> {
     private enum genre_type { Action, Romance, Comedy }
     @Enumerated(EnumType.STRING)
     private genre_type genre;
-    @PositiveOrZero(message = "DVD Reserves cannot be less than zero")
+    @PositiveOrZero
     private int reserve;
 
     public DVD() {}
@@ -37,6 +37,7 @@ public class DVD  extends RepresentationModel<DVD> {
 
     public void addLinks() {
         add(linkTo(methodOn(DVDController.class).searchDVDByID(this.id)).withSelfRel());
+        add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name)).withSelfRel());
         add(linkTo(methodOn(DVDController.class).deleteDVDByID(this.id)).withRel("Delete"));
         add(linkTo(methodOn(DVDController.class).updateDVDByID(this.id,null)).withRel("Update"));
         add(linkTo(methodOn(DVDController.class).searchAllDVDs()).withRel("All DVDs"));

@@ -94,9 +94,9 @@ public class ExceptionAdvice {
 
     // Thrown by the DVDController when user has not provided search query or other data
     @ResponseBody
-    @ExceptionHandler(EmptyPathVariableException.class)
+    @ExceptionHandler(MissingRequiredDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String EmptyPathVariableHandler(EmptyPathVariableException ex) {
+    String EmptyPathVariableHandler(MissingRequiredDataException ex) {
         return "You have not provided the required data for this function";
     }
 

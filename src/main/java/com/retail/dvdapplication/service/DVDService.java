@@ -34,8 +34,8 @@ public class DVDService {
         return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
     }
 
-    public DVD searchDVDByName(String name) {
-        return repository.findByName(name).orElseThrow(() -> new DVDNotFoundException(name));
+    public List<DVD> searchDVDByName(String name) {
+        return repository.findByNameContainingIgnoreCase(name);
     }
 
     public DVD createDVD(DVD newDVD) {

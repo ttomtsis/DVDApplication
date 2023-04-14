@@ -16,9 +16,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint;
-    private EmployeeRepository repository;
-    private DatabaseAuthenticationManager manager;
+    private final MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final EmployeeRepository repository;
+    private final DatabaseAuthenticationManager manager;
 
     SecurityConfiguration( DatabaseAuthenticationManager manager,
                            MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint,

@@ -31,7 +31,7 @@ spec:
               value: "password132"
 
             - name: DATASOURCE_URL
-              value: "jdbc:mysql://mysql-router-service:6446/mydb"
+              value: "jdbc:mysql://mysql-service:4306/mydb"
           readinessProbe:
             httpGet:
               path: /api/dvd/search/all
