@@ -4,14 +4,18 @@ import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.net.URI;
 import java.sql.SQLException;
 
 @RestControllerAdvice
@@ -105,6 +109,26 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String ConstraintViolationHandler(ConstraintViolationException ex) {
         return "DVD Reserves cannot be less than zero";
+    }
+
+    // Thrown when client uses invalid HTTP method on existing Endpoint
+    @ResponseBody
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    ResponseEntity<Object> HttpRequestMethodNotSupportedHandler(HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create("/api/dvds"))
+                .build();
+    }
+
+    // Thrown when client tries to access an endpoint that does not exist
+    @ResponseBody
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    ResponseEntity<Object> NoHandlerFoundHandler(NoHandlerFoundException ex) {
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create("/api/dvds"))
+                .build();
     }
 }
 

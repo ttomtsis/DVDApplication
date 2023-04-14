@@ -18,4 +18,6 @@ docker volume rm mydb_volume
 
 :: Delete images
 docker rmi dvd_spring_server
-docker rmi dvd_mysql_server
+
+:: Not removing the mysql base image in case it is used by other apps
+::docker rmi mysql/mysql-server:8.0
