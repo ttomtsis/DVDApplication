@@ -34,6 +34,10 @@ public class DVDService {
         return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
     }
 
+    public DVD searchDVDByName(String name) {
+        return repository.findByName(name).orElseThrow(() -> new DVDNotFoundException(name));
+    }
+
     public DVD createDVD(DVD newDVD) {
         repository.save(newDVD);
         // If DVD cannot be saved to DB then exception occurs and method does not return
