@@ -2,6 +2,8 @@ version: "3.8"
 services:
   mysql-db:
     image: mysql/mysql-server:8.0
+    mem_limit: 400M # Calculated approximately by looping a post request every 20ms.
+    cpus: 0.1
     container_name: dvd_mysql
     env_file:
       - docker-env.env
@@ -9,19 +11,30 @@ services:
         - mydb_volume:/var/lib/mysql
     networks:
         - dvd_network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
 
   restful-server:
     build: .
     image: dvd_spring_server
+    mem_limit: 150M
+    cpus: 0.5
     container_name: dvd_spring_server
     networks:
       - dvd_network
     ports:
       - "8080:8080"
     depends_on:
-      - mysql-db
+      mysql-db:
+        condition: service_healthy
     env_file:
       - docker-env.env
+    restart: unless-stopped
 
 networks:
   dvd_network:
