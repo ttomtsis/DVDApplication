@@ -2,9 +2,6 @@
 docker network create dvd_network
 docker volume create mydb_volume
 
-:: # Build Rest Server image #
-docker build -t dvd_spring_server ..
-
 :: # Run images #
 :: Mount volume at MySQL image and connect it at network. Run it as a daemon
 :: Volume is mounted at /var/lib/mysql since that is the directory where MySQL stores databases

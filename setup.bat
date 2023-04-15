@@ -4,3 +4,6 @@
 :: ./mvnw spring-boot:build-image
 
 ./mvnw clean install
+
+:: Build Rest Server image
+docker build -t dvd_spring_server .
