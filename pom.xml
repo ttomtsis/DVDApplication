@@ -101,7 +101,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <imageName>ttomtsis/dvd-spring-server:latest</imageName>
-                    <outputDirectory>./docker/SpringServer</outputDirectory>
                 </configuration>
             </plugin>
 

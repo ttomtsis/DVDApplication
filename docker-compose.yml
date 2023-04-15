@@ -2,7 +2,7 @@ version: "3.8"
 services:
   mysql-db:
     image: mysql/mysql-server:8.0
-    container_name: ${MYSQL_CONTAINER_NAME}
+    container_name: dvd_mysql
     env_file:
       - docker-env.env
     volumes:
@@ -11,7 +11,7 @@ services:
         - dvd_network
 
   restful-server:
-    build: /SpringServer
+    build: .
     image: dvd_spring_server
     container_name: dvd_spring_server
     networks:
@@ -22,8 +22,6 @@ services:
       - mysql-db
     env_file:
       - docker-env.env
-    environment:
-      DATASOURCE_URL: jdbc:mysql://${MYSQL_CONTAINER_NAME}:${MYSQL_TCP_PORT}/${MYSQL_DATABASE}
 
 networks:
   dvd_network:
