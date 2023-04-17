@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  mysql-db:
+    image: mysql/mysql-server:8.0
+    container_name: dvd_mysql
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 2
+      # Calculated approximately by looping a post request every 20ms.
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 200M
+    env_file:
+      - docker-env.env
+    volumes:
+        - mydb_volume:/var/lib/mysql
+    networks:
+        - dvd_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  restful-server:
+    build: .
+    image: dvd_spring_server
+    container_name: dvd_spring_server
+    deploy:
+      # Calculated approximately by looping a post request every 20ms.
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 150M
+        reservations:
+          cpus: "0.3"
+          memory: 80M
+    networks:
+      - dvd_network
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    env_file:
+      - docker-env.env
+    restart: unless-stopped
+
+networks:
+  dvd_network:
+
+volumes:
+  mydb_volume:
