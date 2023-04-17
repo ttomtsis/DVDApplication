@@ -3,15 +3,12 @@ kind: StatefulSet
 metadata:
   name: mysql-clusterling
 spec:
-  # Headless service name
   serviceName: "mysql-service"
   replicas: 1
-  # Why is a selector used here ?
   selector:
     matchLabels:
       app: mysql-server
       tier: database
-  # Template for new pods
   template:
     metadata:
       labels:
@@ -27,28 +24,42 @@ spec:
               mountPath: /var/lib/mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "icsd15201"
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: mysql_root_password
 
             - name: MYSQL_USER
-              value: "icsd15201"
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_user
+                  name: db-secret
 
             - name: MYSQL_PASSWORD
-              value: "password132"
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_password
+                  name: db-secret
 
             - name: MYSQL_DATABASE
-              value: "mydb"
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql_database
+                  name: dvd-config
 
             - name: MYSQL_TCP_PORT
-              value: "4306"
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql_tcp_port
+                  name: dvd-config
+
           readinessProbe:
             exec:
               command:
-                - mysqlsh
-                - --js
-                - -u
-                - root
-                - -picsd15201
-                - --execute=println('Hello World')
+              - mysqladmin
+              - ping
+              - -h
+              - localhost
             initialDelaySeconds: 5
             periodSeconds: 2
   volumeClaimTemplates:

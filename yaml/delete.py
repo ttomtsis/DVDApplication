@@ -24,7 +24,7 @@ os.system("kubectl delete statefulset mysql-router")
 os.system("kubectl delete statefulset mysql-clusterling")
 os.system("kubectl delete service mysql-service")
 
-# Delete PVC
+# Delete PVC's
 command = "kubectl get pvc | awk '/mysql-clusterling/ {print $1}'"
 result = subprocess.check_output(command, shell=True)
 result = result.decode().strip()
@@ -33,6 +33,10 @@ pVolumeClaims = result.split("\n")
 for x in range (0, desired_replicas, 1):
     command = "kubectl delete pvc "+pVolumeClaims.__getitem__(x)
     subprocess.run(command, shell=True)
+
+# Delete config map and secret
+os.system("kubectl delete configmap dvd-config")
+os.system("kubectl delete secret db-secret")
 
 # Delete PV's ( in case minikube did not delete them automatically )
 command = "kubectl get pv | awk '/mysql-clusterling/ {print $1}'"
@@ -44,5 +48,6 @@ pvolumes = result.split("\n")
 for x in range (0, desired_replicas, 1):
     command = "kubectl delete pv "+pvolumes.__getitem__(x)
     subprocess.run(command, shell=True)
+
 
 

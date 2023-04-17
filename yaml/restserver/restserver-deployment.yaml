@@ -22,19 +22,31 @@ spec:
           image: ttomtsis/dvd-spring-server:latest
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "containerized"
+              valueFrom:
+                configMapKeyRef:
+                  key: spring_profiles_active
+                  name: dvd-config
 
             - name: DB_USERNAME
-              value: "icsd15201"
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_user
+                  name: db-secret
 
             - name: DB_PASSWORD
-              value: "password132"
+              valueFrom:
+                secretKeyRef:
+                  key: mysql_password
+                  name: db-secret
 
             - name: DATASOURCE_URL
-              value: "jdbc:mysql://mysql-service:4306/mydb"
+              valueFrom:
+                configMapKeyRef:
+                  key: datasource_url
+                  name: dvd-config
           readinessProbe:
             httpGet:
-              path: /api/dvd/search/all
+              path: /api/dvds
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 2

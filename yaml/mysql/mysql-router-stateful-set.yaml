@@ -30,7 +30,7 @@ spec:
             value: "icsd15201"
 
           - name: MYSQL_PORT
-            value: "4306"
+            value: "3306"
 
           - name: MYSQL_CREATE_ROUTER_USER
             value: "1"
