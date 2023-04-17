@@ -6,5 +6,5 @@ data:
   mysql_database: "mydb"
   mysql_tcp_port: "3306"
 
-  datasource_url: "jdbc:mysql://mysql-service:3306/mydb"
+  datasource_url: jdbc:mysql://mysql-service:3306/mydb
   spring_profiles_active: "containerized"

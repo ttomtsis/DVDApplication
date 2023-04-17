@@ -45,8 +45,7 @@ spec:
                   key: datasource_url
                   name: dvd-config
           readinessProbe:
-            httpGet:
-              path: /api/dvds
+            tcpSocket:
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 2
+            periodSeconds: 1
