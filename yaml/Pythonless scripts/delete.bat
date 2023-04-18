@@ -1,4 +1,4 @@
-:: This file works, but it is strongly recommended to use the
+:: This file works, but it is STRONGLY RECOMMENDED to use the
 :: .bat script that relies on the python one instead
 
 :: Delete service and deployment of rest server

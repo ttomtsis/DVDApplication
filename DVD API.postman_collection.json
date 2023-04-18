@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "d78b5139-59a5-4699-9524-c20150190b0f",
+		"name": "DVD API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26540738",
+		"_collection_link": "https://warped-escape-179144.postman.co/workspace/Team-Workspace~092b4738-ff51-4423-8a42-b1b268717537/collection/26540738-d78b5139-59a5-4699-9524-c20150190b0f?action=share&creator=26540738&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Get all DVD's",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "t",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "t",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/dvds",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dvds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create DVD",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "t",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "t",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "6b74b1d2-130a-498f-b66b-eba573188f11",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Beowulf\",\r\n    \"reserve\" : 10,\r\n    \"genre\" : \"Action\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080 /api/dvds",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080 ",
+					"path": [
+						"api",
+						"dvds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/dvds/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dvds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/dvds/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dvds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Reserve or Genre",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"john\",\r\n    \"reserves\" : \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/dvds/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dvds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/dvds/search?name=Beowulf",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dvds",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Beowulf"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "The Bobs Are Invading - Loop Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"if (!pm.environment.has(\"counter\")) {\r",
+							"    pm.environment.set(\"counter\", 1);\r",
+							"} else {\r",
+							"    let counter = pm.environment.get(\"counter\");\r",
+							"    pm.environment.set(\"counter\", counter + 1);\r",
+							"}\r",
+							"\r",
+							"let name = \"bob\" + pm.environment.get(\"counter\");\r",
+							"pm.environment.set(\"name\", name);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "t",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "t",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"reserve\": 10,\r\n    \"genre\": \"Action\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080 /api/dvds",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080 ",
+					"path": [
+						"api",
+						"dvds"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "t",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "t",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,3 +1,5 @@
+# ConfigMap for the MySQL Server and Router Pods
+# as well as for the Spring Boot REST Server Pods
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,3 +10,6 @@ data:
 
   datasource_url: jdbc:mysql://mysql-service:3306/mydb
   spring_profiles_active: "containerized"
+
+  mysql_router_host: mysql-clusterling-0.mysql-service.default.svc.cluster.local
+  mysql_router_create_user: "1"

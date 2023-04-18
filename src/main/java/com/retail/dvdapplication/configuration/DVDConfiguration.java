@@ -1,14 +1,12 @@
 package com.retail.dvdapplication.configuration;
 
-import com.retail.dvdapplication.repository.EmployeeRepository;
 import org.springframework.context.annotation.Configuration;
 
+/*
+* Basic Configuration for the DVDApplication
+* Currently does nothing
+* */
 @Configuration
 public class DVDConfiguration {
-   private EmployeeRepository repository;
-
-    DVDConfiguration ( EmployeeRepository repository ) {
-        this.repository = repository;
-    }
 
 }

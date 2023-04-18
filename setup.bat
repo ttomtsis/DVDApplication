@@ -1,6 +1,6 @@
-:: Will not use buildpack, due to long inigial build times.
-:: Buildpack image can be found at dockerhub
-:: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
+:: This script builds the rest server image or pulls
+:: it from dockerhub. Note that the build process can be slow
+:: compared to pulling from dockerhub.
 
 @echo off
 :loop

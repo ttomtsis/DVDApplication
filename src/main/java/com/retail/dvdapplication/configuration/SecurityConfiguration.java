@@ -12,12 +12,28 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+/*
+ * Security Configuration for the DVDApplication
+ * Manages how authentication is handled.
+ * Sets up and configures Basic Authentication for the app
+ * also adds 2 pre-installed users, user t with password t
+ * and user icsd15201 with password password132
+ *
+ * customAuthenticationEntryPoint is not used
+ * despite being explicitly used in the exception translation filter
+ * see issue #5: https://github.com/ttomtsis/DVDApplication/issues/5
+*/
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    // Custom Authentication entry point used to handle security related exceptions
     private final MyBasicAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    // Will be used to add 2 pre-existing users in the create-users method
     private final EmployeeRepository repository;
+
+    // Custom Authentication Manager, authenication logic implemented here
     private final DatabaseAuthenticationManager manager;
 
     SecurityConfiguration( DatabaseAuthenticationManager manager,
@@ -28,15 +44,19 @@ public class SecurityConfiguration {
         this.repository = repository;
     }
 
+    // Creates the filter chain that will be used and configures which
+    // endpoints will require authentication
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                // login endpoint does not exist yet
                                 .requestMatchers("/login").permitAll()
                                 .anyRequest().authenticated()
                 )
+                // csrf disabled and will not be implemented
                 .csrf().disable();
 
         http.addFilter(new BasicAuthenticationFilter(manager));
@@ -45,6 +65,7 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    // Creates 2 pre-existing users in the database, since user management is out of scope for this project
     @Bean
     public void createUsers() {
         if ( repository.findByName("icsd15201") == null ) {

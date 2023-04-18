@@ -1,3 +1,7 @@
+# Deployment for the Spring Boot REST Server
+# Uses the associated image from dockerhub
+# https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
+# Replicas can be scaled out as much as needed without affecting the rest of the cluster configuration
 apiVersion: apps/v1
 kind: Deployment
 metadata:

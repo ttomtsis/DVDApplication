@@ -1,3 +1,7 @@
+# StatefulSet for the MySQL Router:
+# The cluster has been developed and tested
+# by taking into account that only 1 router will be needed
+# Router uses official MySQL Router Image from dockerhub
 apiVersion:  apps/v1
 kind: StatefulSet
 metadata:
@@ -21,16 +25,31 @@ spec:
         image: mysql/mysql-router:8.0
         env:
           - name: MYSQL_HOST
-            value: "mysql-clusterling-0.mysql-service.default.svc.cluster.local"
+            valueFrom:
+              configMapKeyRef:
+                key: mysql_router_host
+                name: dvd-config
 
           - name: MYSQL_USER
-            value: "root"
+            valueFrom:
+              secretKeyRef:
+                key: mysql_router_user
+                name: db-secret
 
           - name: MYSQL_PASSWORD
-            value: "icsd15201"
+            valueFrom:
+              secretKeyRef:
+                key: mysql_root_password
+                name: db-secret
 
           - name: MYSQL_PORT
-            value: "3306"
+            valueFrom:
+              configMapKeyRef:
+                key: mysql_tcp_port
+                name: dvd-config
 
           - name: MYSQL_CREATE_ROUTER_USER
-            value: "1"
+            valueFrom:
+              configMapKeyRef:
+                key: mysql_router_create_user
+                name: dvd-config

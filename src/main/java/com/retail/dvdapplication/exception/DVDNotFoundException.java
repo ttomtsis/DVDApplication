@@ -1,5 +1,9 @@
 package com.retail.dvdapplication.exception;
 
+/*
+* Custom exception, thrown when a DVD is not found
+* by the specified operation
+*/
 public class DVDNotFoundException extends RuntimeException {
 
     public DVDNotFoundException(long id) {
