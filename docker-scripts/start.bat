@@ -1,3 +1,6 @@
+:: This script creates the resources necessary for the containers
+:: to function
+
 :: # Create network and volume #
 docker network create dvd_network
 docker volume create mydb_volume

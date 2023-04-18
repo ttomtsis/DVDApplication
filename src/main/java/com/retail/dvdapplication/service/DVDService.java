@@ -26,24 +26,30 @@ public class DVDService {
     }
 
     private static final Logger log = LoggerFactory.getLogger("DVD Service");
+
+    // Return all dvds in database
     public List<DVD> searchAllDVDs() {
         return repository.findAll();
     }
 
+    // Return dvd with matching id or throw exception
     public DVD searchDVDByID(long id) {
         return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
     }
 
+    // Return all dvds whose titles match the requested name
     public List<DVD> searchDVDByName(String name) {
         return repository.findByNameContainingIgnoreCase(name);
     }
 
+    // Create a new DVD
     public DVD createDVD(DVD newDVD) {
         repository.save(newDVD);
         // If DVD cannot be saved to DB then exception occurs and method does not return
         return newDVD;
     }
 
+    // Update a DVD
     public DVD updateDVDByID(long id, DVD newDVD) {
         // Check if the DVD exists
         DVD updatedDVD = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
@@ -63,6 +69,7 @@ public class DVDService {
 
     }
 
+    // Delete a DVD
     public void deleteDVDByID(long id) {
         if ( repository.existsById(id) ) {
             repository.deleteById(id);

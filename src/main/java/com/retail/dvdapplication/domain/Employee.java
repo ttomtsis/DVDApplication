@@ -2,6 +2,10 @@ package com.retail.dvdapplication.domain;
 
 import jakarta.persistence.*;
 
+/*
+* Represents an employee of the dvd store
+* that uses the server. Stored in the same database as dvd objects
+*/
 @Entity
 @Table(name = "Employee", uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class Employee {

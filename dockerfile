@@ -1,3 +1,7 @@
+# Using the openjdk only to allow the maven wrapper
+# to create the jarfile that will use in the second stage
+# NOTE: Chose bellsoft baseimages since the Spring Team also
+# recommends them
 FROM bellsoft/liberica-openjdk-alpine as build
 
 LABEL MAINTAINER="BellSoft, <info@bell-sw.com>"
@@ -7,8 +11,13 @@ RUN mkdir /opt/DVDApplication
 COPY . /opt/DVDApplication
 WORKDIR /opt/DVDApplication
 
+# Using the maven wrapper with the bellsoft openjdk
+# due to the smaller size of the bellsoft openjdk compared to a maven baseimage
+# Note that compiling the jar can take some time, so the setup script
+# also offers the option to pull the image from dockerhub
 RUN ./mvnw clean install
 
+# Now using only the jre in order to trim down the resulting image size
 FROM bellsoft/liberica-runtime-container:jre-slim
 
 RUN mkdir /opt/DVDApplication

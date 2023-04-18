@@ -12,7 +12,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 * Domain object, represents DVD. Will be inserted to MySQL DB
 * Manipulated by DVDService class
 */
-
 @Entity
 @Table(name = "dvd", uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class DVD  extends RepresentationModel<DVD> {
@@ -35,6 +34,7 @@ public class DVD  extends RepresentationModel<DVD> {
         this.reserve = reserve;
     }
 
+    // Adds links to the object
     public void addLinks() {
         add(linkTo(methodOn(DVDController.class).searchDVDByID(this.id)).withSelfRel());
         add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name)).withSelfRel());

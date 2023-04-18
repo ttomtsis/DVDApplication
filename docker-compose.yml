@@ -15,6 +15,7 @@ services:
         reservations:
           cpus: "0.1"
           memory: 200M
+    # Provided in the same folder as the .yml file
     env_file:
       - docker-env.env
     volumes:

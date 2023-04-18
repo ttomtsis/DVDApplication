@@ -14,12 +14,12 @@ import java.util.List;
 /*
 * Creates mappings for HTTP Methods and links them
 * to respective service implementations of DVDService
-* */
+*/
 @RestController
 @RequestMapping(value = "/api")
 public class DVDController {
 
-    private final DVDService service;
+    private final DVDService service; // Service class
     private static final Logger log = LoggerFactory.getLogger("DVD Controller");
 
     public DVDController(DVDService service) {

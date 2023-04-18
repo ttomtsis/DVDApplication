@@ -1,3 +1,5 @@
+# Headless service for the MySQL Router
+# Uses standard ports
 apiVersion: v1
 kind: Service
 metadata:

@@ -12,5 +12,8 @@ import java.util.List;
 */
 @Repository
 public interface DVDRepository extends JpaRepository<DVD, Long> {
+
+    // Finds all DVDs that match the name given, is NOT case sensitive
+    // eg: For name=wulf, the following DVDs will be returned, Beowulf, Beowulf 132, wulf 132
     List<DVD> findByNameContainingIgnoreCase(String name);
 }

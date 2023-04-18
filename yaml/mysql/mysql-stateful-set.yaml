@@ -1,3 +1,7 @@
+# StatefulSet for the MySQL Server Pods
+# Using MySQL Server Official Image
+# In order to function properly the replicas must either be 1, or
+# the setup script should be used so that an InnoDB cluster is created
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -21,7 +25,7 @@ spec:
           image: mysql:8.0.32
           volumeMounts:
             - name: db-volume
-              mountPath: /var/lib/mysql
+              mountPath: /var/lib/mysql # mounted here so database persists
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -53,6 +57,7 @@ spec:
                   key: mysql_tcp_port
                   name: dvd-config
 
+          # Using mysqladmin ping as readiness probe
           readinessProbe:
             exec:
               command:
@@ -62,6 +67,8 @@ spec:
               - localhost
             initialDelaySeconds: 5
             periodSeconds: 2
+
+  # Each pod is associated wtih a 1GB pv
   volumeClaimTemplates:
     - metadata:
         name: db-volume

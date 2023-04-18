@@ -18,12 +18,18 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.net.URI;
 import java.sql.SQLException;
 
+/*
+* Exception advisor class, contains advice about how the controller
+* should handle the exceptions thrown. NOTE: Currently the return type
+* of most exceptions is "String", since it makes it easier for testing
+* with Postman. Will be later replaced with "ResponseEntity"
+*/
 @RestControllerAdvice
 public class ExceptionAdvice {
 
     private static Logger log = LoggerFactory.getLogger("Exception Handler");
 
-
+// Related to issue #5 on github: https://github.com/ttomtsis/DVDApplication/issues/5
 /*    @ResponseBody
     @ExceptionHandler(InsufficientAuthenticationException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -48,6 +54,7 @@ public class ExceptionAdvice {
         return "Missing required information: " + ex.getMessage();
     }*/
 
+    // Thrown when a DVD is not found
     @ResponseBody
     @ExceptionHandler(DVDNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -55,6 +62,7 @@ public class ExceptionAdvice {
         return ex.getMessage();
     }
 
+    // General Exception Handler regarding SQL Errors
     @ResponseBody
     @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -80,7 +88,7 @@ public class ExceptionAdvice {
         return "Function cannot be performed, there are syntax errors in your request's body";
     }
 
-    // Thrown when parameters in the url provided by the user is invalid
+    // Thrown when parameters in the url provided by the user are invalid
     @ResponseBody
     @ExceptionHandler(MissingPathVariableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -96,7 +104,7 @@ public class ExceptionAdvice {
         return "The data you provided was invalid, please try again ( ERROR CODE: 5 )";
     }
 
-    // Thrown by the DVDController when user has not provided search query or other data
+    // Thrown by the DVDController when user has not provided a search query or other data
     @ResponseBody
     @ExceptionHandler(MissingRequiredDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -104,6 +112,7 @@ public class ExceptionAdvice {
         return "You have not provided the required data for this function";
     }
 
+    // Thrown when the DVD Reserves are below zero
     @ResponseBody
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
