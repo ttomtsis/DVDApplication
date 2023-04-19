@@ -67,7 +67,7 @@ public class SecurityConfiguration {
 
     // Creates 2 pre-existing users in the database, since user management is out of scope for this project
     @Bean
-    public void createUsers() {
+    public boolean createUsers() {
         if ( repository.findByName("icsd15201") == null ) {
             repository.save(new Employee("icsd15201", "password"));
 
@@ -75,6 +75,7 @@ public class SecurityConfiguration {
         if ( repository.findByName("t") == null ) {
             repository.save(new Employee("t", "t"));
         }
+        return true;
     }
 
 }
