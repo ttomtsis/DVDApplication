@@ -4,6 +4,7 @@ import com.retail.dvdapplication.domain.Employee;
 import com.retail.dvdapplication.repository.EmployeeRepository;
 import com.retail.dvdapplication.security.DatabaseAuthenticationManager;
 import com.retail.dvdapplication.security.MyBasicAuthenticationEntryPoint;
+import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -67,6 +68,7 @@ public class SecurityConfiguration {
 
     // Creates 2 pre-existing users in the database, since user management is out of scope for this project
     @Bean
+    @Transactional
     public boolean createUsers() {
         if ( repository.findByName("icsd15201") == null ) {
             repository.save(new Employee("icsd15201", "password"));
