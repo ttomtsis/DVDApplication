@@ -10,21 +10,6 @@
 		{
 			"name": "Get all DVD's",
 			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "username",
-							"value": "t",
-							"type": "string"
-						},
-						{
-							"key": "password",
-							"value": "t",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -74,7 +59,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"Beowulf\",\r\n    \"reserve\" : 10,\r\n    \"genre\" : \"Action\"\r\n}",
+					"raw": "{\r\n    \"name\" : \"wulf 132\",\r\n    \"reserve\" : 10,\r\n    \"genre\" : \"Action\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -82,7 +67,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080 /api/dvds",
+					"raw": "http://127.0.0.1:8080/api/dvds",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -90,7 +75,7 @@
 						"0",
 						"1"
 					],
-					"port": "8080 ",
+					"port": "8080",
 					"path": [
 						"api",
 						"dvds"
@@ -146,7 +131,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"john\",\r\n    \"reserves\" : \"\"\r\n}",
+					"raw": "{\r\n    \"name\" : \"Beowulf\",\r\n    \"reserve\" : 20\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -174,7 +159,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/dvds/search?name=Beowulf",
+					"raw": "localhost:8080/api/dvds/search?name=wulf132",
 					"host": [
 						"localhost"
 					],
@@ -187,7 +172,7 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "Beowulf"
+							"value": "wulf132"
 						}
 					]
 				}
