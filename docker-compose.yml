@@ -26,7 +26,7 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 5
 
   restful-server:
     build: .
