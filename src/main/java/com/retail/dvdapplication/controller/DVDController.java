@@ -80,7 +80,7 @@ public class DVDController {
     }
 
     @DeleteMapping("dvds/{id}")
-    public ResponseEntity<String> deleteDVDByID(@PathVariable long id) {
+    public ResponseEntity<Void> deleteDVDByID(@PathVariable long id) {
         log.info("New DVD Delete Request: Delete DVD - " + id);
         service.deleteDVDByID(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

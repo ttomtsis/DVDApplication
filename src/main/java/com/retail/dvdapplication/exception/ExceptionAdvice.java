@@ -68,9 +68,12 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String SQLExceptionHandler(SQLException ex) {
         if (ex.getErrorCode()==23505) {
-            return "The Requsted Object cannot be created because the provided name already exists";
+            return "Unique constraint: The name you provided must be unique in the dataase, and currently it isn't";
         }
-        return "Generic SQLException";
+        if (ex.getErrorCode() == 1062) {
+            return "Duplicate entry: The name you provided already exists";
+        }
+        return "SQLException: " + ex.getMessage();
     }
 
     // Thrown when invalid genre ( enum ) is provided
@@ -79,7 +82,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String HttpMessageNotReadableHandler(HttpMessageNotReadableException ex) {
         if (ex.getMessage().contains("JSON parse error: No enum constant")) {
-            return "The genre you provided is invalid ( ERROR CODE : 3 )";
+            return "The genre you provided is invalid";
         }
         if (ex.getMessage().contains("Required request body is missing")) {
             return "Missing required data, invalid request";
@@ -93,7 +96,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(MissingPathVariableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String MissingPathVariableHandler(MissingPathVariableException ex) {
-        return "The data you provided was invalid, please try again ( ERROR CODE: 4 )";
+        return "The data you provided was invalid, please try again";
     }
 
     // Thrown when user has provided a different type of variable than the one specified
@@ -101,7 +104,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String MethodArgumentTypeMismatchHandler(MethodArgumentTypeMismatchException ex) {
-        return "The data you provided was invalid, please try again ( ERROR CODE: 5 )";
+        return "The data you provided was invalid, please try again";
     }
 
     // Thrown by the DVDController when user has not provided a search query or other data
