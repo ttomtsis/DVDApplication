@@ -85,7 +85,7 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 # Endpoints
 
 * GET `/api/dvds` - Retrieves a list of all DVDs.
-* GET `/api/dvds?title=title` - Retrieves a list of DVDs that match the specified title.
+* GET `/api/dvds?name=dvdName` - Retrieves a list of DVDs that match the specified title.
 * GET `/api/dvds/{dvdID}` - Retrieves details about a specific DVD.
 * POST `/api/dvds` - Adds a new DVD to the database.
 * PUT `/api/dvds/{dvdID}` - Updates the quantity and genre of an existing DVD.
