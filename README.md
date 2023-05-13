@@ -9,25 +9,25 @@ Associated DockerHub container repository:
 https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Features
-* Role-based authorization with Spring Security
+* Role-based authorization, Basic Authentication
 * HATEOAS
 * Docker support
 * Kubernetes support
 * MySQL and InnoDB Cluster
 * GraalVM Native Image
 
-# Technologies
+# Technology stack
 * Java 17
-* Spring Boot 3.1.0
-* Spring Security
+* Spring Boot 3.0.5
+* Spring Security 6
 * MySQL 8.0
-* HATEOAS
+* HATEOAS 3
 * Docker
 * Kubernetes
 * GraalVM 22 ( for native image creation )
 
 # Getting Started
-To get started with this project, you can choose either to run it locally your host machine, on docker or in a single node Kubernetes cluster using minikube. 
+To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
 The spring boot app consists of two profiles, the 'default' profile uses an H2 database whereas the 'containerized' profile uses a MySQL Database by default.
 **The inscructions provided below concern only Windows**.
 
@@ -41,6 +41,8 @@ Also you must configure the application to use your credentials when connecting 
  this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
 
 ## Locally
+
+### Build with maven 
 You will need to have the following installed on your machine:
 
 * Java 17+
@@ -53,6 +55,16 @@ To build and run the project, follow these steps:
 * Navigate to the project directory
 * Build the project: `mvn clean install`
 * Run the project: `mvn spring-boot:run`
+
+### Native executable
+You can also download the latest native executable
+( https://github.com/ttomtsis/DVDApplication/releases ), configure it as described above
+and run it without any prerequisites
+
+In case you need to create a new executable use maven's native profile:
+If maven is installed use: `mvn -Pnative native:compile`
+
+Alternatively you can use the maven wrapper: `./mvnw -Pnative native:compile`
 
 ## Docker
 To run the project on Docker, make sure you have Docker installed on your machine.
@@ -71,6 +83,10 @@ The provided scripts use a MySQL Database by default
 * Navigate to the docker-scripts directory, located inside the project directory
 * Start the containers by running the compose-start.bat file: `./compose-start.bat`
 * Delete the containers, networks and associated vlumes by running the compose-stop.bat file: `./compose-stop.bat`
+
+### Option 3: Dockerhub
+* Check out the associated dockerhub repository: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
+* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:native-image`
 
 ## Kubernetes
 To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
