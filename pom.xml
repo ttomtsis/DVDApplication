@@ -106,6 +106,12 @@
             <plugin>
                 <groupId>org.graalvm.buildtools</groupId>
                 <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <buildArgs>
+                        <arg>-H:DashboardDump=diagnostic-data</arg>
+                        <arg>-H:+DashboardAll</arg>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
