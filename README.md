@@ -15,6 +15,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * Kubernetes support
 * MySQL and InnoDB Cluster
 * GraalVM Native Image
+* TLS v1.3 support with dummy certificates
 
 # Technology stack
 * Java 17
@@ -29,6 +30,8 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
 The spring boot app consists of two profiles, the 'default' profile uses an H2 database whereas the 'containerized' profile uses a MySQL Database by default.
+A dummy root CA certificate is provided in the `resources/tls` folder. You can install this in your system.
+There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
 **The inscructions provided below concern only Windows**.
 
 ## Database configuration
