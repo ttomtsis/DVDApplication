@@ -31,6 +31,13 @@
             <version>3.0.5</version>
         </dependency>
 
+        <!--> Spring Actuator </!-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>3.0.6</version>
+        </dependency>
+
         <!--> Hibernate Validator </!-->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
