@@ -115,8 +115,9 @@
                 <artifactId>native-maven-plugin</artifactId>
                 <configuration>
                     <buildArgs>
-                        <arg>-H:DashboardDump=classpath:/target/diagnostic-data</arg>
+                        <arg>-H:DashboardDump=./target/diagnostic-data</arg>
                         <arg>-H:+DashboardAll</arg>
+                        <arg>-H:IncludeResources="tls/myserver.p12"</arg>
                     </buildArgs>
                 </configuration>
             </plugin>
