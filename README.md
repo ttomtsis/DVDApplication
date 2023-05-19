@@ -68,7 +68,7 @@ configuration
 - **server.ssl.key-store-password** : The type of the keyfile
 - **server.ssl.keyAlias** : The alias associated with the key file
 
-Note: mTLS is not supported currently
+Note: mTLS is currently not supported
 
 ## Locally
 
