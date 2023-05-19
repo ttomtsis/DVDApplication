@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="DvdApplication - Default" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
     <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../../../../Program Files/Java/graalvm-ce-java17-22.3.1" />
     <module name="DVDApplication" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.retail.dvdapplication.DvdApplication" />
