@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                         authorizeHttpRequests
                                 // login endpoint does not exist yet
                                 .requestMatchers("/login").permitAll()
+                                .requestMatchers("/server/health").permitAll()
                                 .anyRequest().authenticated()
                 )
                 // csrf disabled and will not be implemented
