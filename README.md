@@ -11,7 +11,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 # Features
 * Role-based authorization, Basic Authentication
 * HATEOAS
-* Spring Actuator
+* Spring Actuator 
 * Docker support
 * Kubernetes support
 * MySQL and InnoDB Cluster
@@ -30,7 +30,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of **two profiles**:
+The spring boot app consists of **three profiles**:
 
 1) The '**default profile**' which by default uses an H2 database but can be
 configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
@@ -38,9 +38,14 @@ configured to function with any Spring compatible Database ( Refer to the Databa
 2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
 It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
 
-A dummy root CA certificate is provided in the `tls` folder. You can install this in your system.
+3) The '**native profile**' is **to be used in conjunction with the native executables and images**. All the above
+still apply to it as far as configuration is concerned. You can select the native profile in windows powershell like this:
+`$env:SPRING_PROFILES_ACTIVE="native"`. This profile by default uses an H2 database but can be configured like the
+containerized profile.
+
+A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
 There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
-**The inscructions provided below concern only Windows**.
+**The scripts provided below were created for the Windows OS**.
 
 ## Database configuration
 To use a normal database you must configure the application to use your credentials when connecting to the
@@ -53,6 +58,17 @@ specified database by setting the following environment variables:
 
 Note that **the containerized profile does not use an H2 database by default** and if you set it active but forget to
 provide the above environment variables the server's execution will fail.
+
+## TLS configuration
+You can use the provided certificates or you can override the following properties to implement your own
+configuration
+
+- **server.ssl.key-store** : The location of the keyfile
+- **server.ssl.key-store-password** : The password required ( if required ) in order to access the key file
+- **server.ssl.key-store-password** : The type of the keyfile
+- **server.ssl.keyAlias** : The alias associated with the key file
+
+Note: mTLS is not supported currently
 
 ## Locally
 
