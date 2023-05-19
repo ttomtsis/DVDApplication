@@ -30,18 +30,15 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of **three profiles**:
+The spring boot app consists of **two profiles**:
 
 1) The '**default profile**' which by default uses an H2 database but can be
 configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
 
 2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
 It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
-
-3) The '**native profile**' is **to be used in conjunction with the native executables and images**. All the above
-still apply to it as far as configuration is concerned. You can select the native profile in windows powershell like this:
-`$env:SPRING_PROFILES_ACTIVE="native"`. This profile by default uses an H2 database but can be configured like the
-containerized profile.
+Set the active profile in windows powershell: `$env:SPRING_PROFILES_ACTIVE="containerized"`
+NOTE: This profile should be used in conjunction with the native executables
 
 A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
 There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
