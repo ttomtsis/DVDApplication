@@ -11,6 +11,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 # Features
 * Role-based authorization, Basic Authentication
 * HATEOAS
+* Spring Actuator
 * Docker support
 * Kubernetes support
 * MySQL and InnoDB Cluster
@@ -29,7 +30,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of two profiles, the 'default' profile uses an H2 database whereas the 'containerized' profile uses a MySQL Database by default.
+The spring boot app consists of **two profiles**, the '**default**' profile uses an H2 database whereas the '**containerized**' profile uses a MySQL Database by default.
 A dummy root CA certificate is provided in the `resources/tls` folder. You can install this in your system.
 There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
 **The inscructions provided below concern only Windows**.
@@ -103,6 +104,7 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 
 # Endpoints
 
+**DVD CRUD Operations**
 * GET `/api/dvds` - Retrieves a list of all DVDs.
 * GET `/api/dvds?name=dvdName` - Retrieves a list of DVDs that match the specified title.
 * GET `/api/dvds/{dvdID}` - Retrieves details about a specific DVD.
@@ -110,3 +112,15 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 * PUT `/api/dvds/{dvdID}` - Updates the quantity and genre of an existing DVD.
 * DELETE `/api/dvds/{dvdID}` - Deletes a DVD from the database.
 
+**Actuator**
+* GET `/server` - Provides a list of all actuator endpoints
+* GET `/server/info` - Returns basic information about the application
+* GET `/server/mappings` - Provides an exhaustive list and description of all the endpoints
+* GET `/server/health` - Return the server's running state
+* GET `/server/health/{*path}` - Provides information for the specified custom health metric
+* GET `/server/env` - Provides a list of all spring configured properties
+* GET `/server/env/{toMatch}` - Returns information about the specified property
+* GET `/server/loggers` - Provides a list of all available loggers
+* GET `/server/loggers/{name}` - Returns the logging level of a specific logger
+* GET `/server/metrics` - Provides a list of the supported application metrics
+* GET `/server/metrics/{MetricName}` - Returns the value of the specified metric
