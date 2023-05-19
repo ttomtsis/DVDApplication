@@ -30,19 +30,29 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of **two profiles**, the '**default**' profile uses an H2 database whereas the '**containerized**' profile uses a MySQL Database by default.
-A dummy root CA certificate is provided in the `resources/tls` folder. You can install this in your system.
+The spring boot app consists of **two profiles**:
+
+1) The '**default profile**' which by default uses an H2 database but can be
+configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
+
+2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
+It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
+
+A dummy root CA certificate is provided in the `tls` folder. You can install this in your system.
 There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
 **The inscructions provided below concern only Windows**.
 
 ## Database configuration
-If you want to use a normal database you must set the environment variable **SPRING_PROFILES_ACTIVE** equal to 'containerized'
-Also you must configure the application to use your credentials when connecting to the specified database by setting the following environment variables:
+To use a normal database you must configure the application to use your credentials when connecting to the
+specified database by setting the following environment variables:
 
  - **DB_USERNAME** : The username that you use when you connect to the database
  - **DB_PASSWORD** : The password that you use when you connect to the database
  - **DATASOUCE_URL** : The url to your database. You can use any database that is compatible with Spring Boot like PostgreSQL or MySQL etc, however note that
  this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
+
+Note that **the containerized profile does not use an H2 database by default** and if you set it active but forget to
+provide the above environment variables the server's execution will fail.
 
 ## Locally
 
