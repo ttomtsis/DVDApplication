@@ -139,11 +139,13 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 * GET `/server` - Provides a list of all actuator endpoints
 * GET `/server/info` - Returns basic information about the application
 * GET `/server/mappings` - Provides an exhaustive list and description of all the endpoints
+* GET `/server/logs` - Returns the contents of the servers logfile
 * GET `/server/health` - Return the server's running state
 * GET `/server/health/{*path}` - Provides information for the specified custom health metric
 * GET `/server/env` - Provides a list of all spring configured properties
 * GET `/server/env/{toMatch}` - Returns information about the specified property
 * GET `/server/loggers` - Provides a list of all available loggers
 * GET `/server/loggers/{name}` - Returns the logging level of a specific logger
+* POST `/server/loggers/{name}` - Change the `configuredLevel` of the specified logger
 * GET `/server/metrics` - Provides a list of the supported application metrics
 * GET `/server/metrics/{MetricName}` - Returns the value of the specified metric
