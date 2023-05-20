@@ -140,6 +140,7 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 * GET `/server/info` - Returns basic information about the application
 * GET `/server/mappings` - Provides an exhaustive list and description of all the endpoints
 * GET `/server/logs` - Returns the contents of the servers logfile
+* GET `/server/beans` - Returns an exhaustive list and description of the application's beans
 * GET `/server/health` - Return the server's running state
 * GET `/server/health/{*path}` - Provides information for the specified custom health metric
 * GET `/server/env` - Provides a list of all spring configured properties
