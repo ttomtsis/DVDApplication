@@ -66,7 +66,11 @@ public class DVD  extends RepresentationModel<DVD> {
     }
 
     public String getGenre() {
-        return String.valueOf(this.genre);
+        String dvdGenre = String.valueOf(this.genre);
+        if ( dvdGenre.equals("null") ) { // Happens if a genre is not provided
+            return null;
+        }
+        return dvdGenre;
     }
 
     public int getReserve() {
