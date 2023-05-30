@@ -60,7 +60,7 @@ public class DVDService {
         if ( updatedDVD.equals(newDVD) ) { return null; }
 
         // Update fields
-        if ( !newDVD.getGenre().equals( "null") ) {
+        if ( newDVD.getGenre() != null ) {
             updatedDVD.setGenre(newDVD.getGenre());
         }
         // Check github issue #1 https://github.com/ttomtsis/DVDApplication/issues/1
