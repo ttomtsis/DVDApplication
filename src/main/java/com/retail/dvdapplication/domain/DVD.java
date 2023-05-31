@@ -20,11 +20,11 @@ public class DVD  extends RepresentationModel<DVD> {
     private Long id;
     @Column(nullable=false)
     private String name;
-    private enum genre_type { Action, Romance, Comedy }
+    private enum genre_type { ACTION, ROMANCE, COMEDY }
     @Enumerated(EnumType.STRING)
     private genre_type genre;
     @PositiveOrZero
-    private int reserve;
+    private Integer reserve;
 
     public DVD() {}
 
@@ -73,7 +73,7 @@ public class DVD  extends RepresentationModel<DVD> {
         return dvdGenre;
     }
 
-    public int getReserve() {
+    public Integer getReserve() {
         return this.reserve;
     }
 
