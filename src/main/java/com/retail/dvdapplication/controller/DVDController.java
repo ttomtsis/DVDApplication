@@ -1,7 +1,6 @@
 package com.retail.dvdapplication.controller;
 
 import com.retail.dvdapplication.domain.DVD;
-import com.retail.dvdapplication.exception.MissingRequiredDataException;
 import com.retail.dvdapplication.service.DVDService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import java.util.List;
 * to respective service implementations of DVDService
 */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/dvds")
 public class DVDController {
 
     private final DVDService service; // Service class
@@ -26,60 +25,37 @@ public class DVDController {
         this.service = service;
     }
 
-    @PostMapping("/dvds")
+    @PostMapping("")
     public ResponseEntity<DVD> createDVD(@RequestBody DVD new_dvd) {
         log.info("New DVD Creation Request: " + new_dvd.toString());
-        DVD created = service.createDVD(new_dvd);
-        created.addLinks();
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return new ResponseEntity<>(service.createDVD(new_dvd), HttpStatus.CREATED);
     }
 
-    @GetMapping("/dvds")
+    @GetMapping("")
     public ResponseEntity<List<DVD>> searchAllDVDs() {
         log.info("New DVD Search Request: Search All");
-        List<DVD> searchResults = service.searchAllDVDs();
-        for ( DVD d : searchResults ) {
-            d.addLinks();
-        }
-        return new ResponseEntity<>(searchResults, HttpStatus.OK);
+        return new ResponseEntity<>(service.searchAllDVDs(), HttpStatus.OK);
     }
 
-    @GetMapping("/dvds/search")
+    @GetMapping("/search")
     public ResponseEntity<List<DVD>> searchDVDByName(@RequestParam String name) {
-        if ( name.equals("") ) {
-            throw new MissingRequiredDataException();
-        }
         log.info("New DVD Search Request: Search name - " + name);
-        List<DVD> searchResults = service.searchDVDByName(name);
-        for ( DVD d : searchResults ) {
-            d.addLinks();
-        }
-        return new ResponseEntity<>(searchResults, HttpStatus.OK);
+        return new ResponseEntity<>(service.searchDVDByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/dvds/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DVD> searchDVDByID(@PathVariable long id) {
         log.info("New DVD Search Request: Search id - " + id);
-        DVD dvd = service.searchDVDByID(id);
-        dvd.addLinks();
-        return new ResponseEntity<>(dvd, HttpStatus.OK);
+        return new ResponseEntity<>(service.searchDVDByID(id), HttpStatus.OK);
     }
 
-    @PutMapping("/dvds/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<DVD> updateDVDByID(@PathVariable long id, @RequestBody DVD newDVD) {
-        DVD updatedDVD = service.updateDVDByID(id, newDVD);
-        if ( updatedDVD == null ){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else {
             log.info("New DVD Update Request: Update DVD - " + id);
-            service.updateDVDByID(id, newDVD);
-            updatedDVD.addLinks();
-            return new ResponseEntity<>(updatedDVD,HttpStatus.OK);
-        }
+            return new ResponseEntity<>(service.updateDVDByID(id, newDVD),HttpStatus.OK);
     }
 
-    @DeleteMapping("dvds/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDVDByID(@PathVariable long id) {
         log.info("New DVD Delete Request: Delete DVD - " + id);
         service.deleteDVDByID(id);
