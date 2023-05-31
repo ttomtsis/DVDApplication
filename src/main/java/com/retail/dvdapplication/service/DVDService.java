@@ -2,6 +2,7 @@ package com.retail.dvdapplication.service;
 
 import com.retail.dvdapplication.domain.DVD;
 import com.retail.dvdapplication.exception.DVDNotFoundException;
+import com.retail.dvdapplication.exception.MissingRequiredDataException;
 import com.retail.dvdapplication.repository.DVDRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -29,23 +30,36 @@ public class DVDService {
 
     // Return all dvds in database
     public List<DVD> searchAllDVDs() {
-        return repository.findAll();
+        List<DVD> searchResults = repository.findAll();
+        for ( DVD d : searchResults ) {
+            d.addLinks();
+        }
+        return searchResults;
     }
 
-    // Return dvd with matching id or throw exception
+    // Return dvd with matching id
     public DVD searchDVDByID(long id) {
-        return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
+        DVD dvd = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
+        dvd.addLinks();
+        return dvd;
     }
 
-    // Return all dvds whose titles match the requested name
+    // Return all dvds whose titles are similar to the requested name
     public List<DVD> searchDVDByName(String name) {
-        return repository.findByNameContainingIgnoreCase(name);
+        if ( name.equals("") ) {
+            throw new MissingRequiredDataException();
+        }
+        List<DVD> searchResults = repository.findByNameContainingIgnoreCase(name);
+        for ( DVD d : searchResults ) {
+            d.addLinks();
+        }
+        return searchResults;
     }
 
-    // Create a new DVD
+    // Create a new DVD, if DVD cannot be saved to DB then exception occurs
     public DVD createDVD(DVD newDVD) {
         repository.save(newDVD);
-        // If DVD cannot be saved to DB then exception occurs and method does not return
+        newDVD.addLinks();
         return newDVD;
     }
 
@@ -54,20 +68,20 @@ public class DVDService {
     // https://github.com/ttomtsis/DVDApplication/issues/17
     public DVD updateDVDByID(long id, DVD newDVD) {
         // Check if the DVD exists
-        DVD updatedDVD = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
+        DVD existingDVD = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
 
         // Check if the DVD actually requires updating
-        if ( updatedDVD.equals(newDVD) ) { return null; }
+        if ( existingDVD.equals(newDVD) ) { return existingDVD; }
 
         // Update fields
         if ( newDVD.getGenre() != null ) {
-            updatedDVD.setGenre(newDVD.getGenre());
+            existingDVD.setGenre(newDVD.getGenre());
         }
         // Check github issue #1 https://github.com/ttomtsis/DVDApplication/issues/1
        if ( newDVD.getReserve() != 0 ) {
-           updatedDVD.setReserve(newDVD.getReserve());
+           existingDVD.setReserve(newDVD.getReserve());
         }
-        return updatedDVD;
+        return existingDVD;
 
     }
 
