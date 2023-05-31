@@ -77,8 +77,7 @@ public class DVDService {
         if ( newDVD.getGenre() != null ) {
             existingDVD.setGenre(newDVD.getGenre());
         }
-        // Check github issue #1 https://github.com/ttomtsis/DVDApplication/issues/1
-       if ( newDVD.getReserve() != 0 ) {
+       if ( newDVD.getReserve() != null ) {
            existingDVD.setReserve(newDVD.getReserve());
         }
         return existingDVD;
