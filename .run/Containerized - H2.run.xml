@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="DvdApplication - Containerized" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Containerized - H2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="ACTIVE_PROFILES" value="containerized" />
     <envs>
       <env name="DATASOURCE_URL" value="jdbc:mysql://localhost:3306/test1" />
