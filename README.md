@@ -9,38 +9,67 @@ Associated DockerHub container repository:
 https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Features
-* Role-based authorization with Spring Security
+* Role-based authorization, Basic Authentication
 * HATEOAS
+* Spring Actuator 
 * Docker support
 * Kubernetes support
 * MySQL and InnoDB Cluster
 * GraalVM Native Image
+* TLS v1.3 support with dummy certificates
 
-# Technologies
+# Technology stack
 * Java 17
-* Spring Boot 3.1.0
-* Spring Security
+* Spring Boot 3.0.5
+* Spring Security 6
 * MySQL 8.0
-* HATEOAS
+* HATEOAS 3
 * Docker
 * Kubernetes
 * GraalVM 22 ( for native image creation )
 
 # Getting Started
-To get started with this project, you can choose either to run it locally your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of two profiles, the 'default' profile uses an H2 database whereas the 'containerized' profile uses a MySQL Database by default.
-**The inscructions provided below concern only Windows**.
+To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
+The spring boot app consists of **two profiles**:
+
+1) The '**default profile**' which by default uses an H2 database but can be
+configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
+
+2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
+It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
+Set the active profile in windows powershell: `$env:SPRING_PROFILES_ACTIVE="containerized"`
+NOTE: This profile should be used in conjunction with the native executables
+
+A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
+There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
+**The scripts provided below were created for the Windows OS**.
 
 ## Database configuration
-If you want to use a normal database you must set the environment variable **SPRING_PROFILES_ACTIVE** equal to 'containerized'
-Also you must configure the application to use your credentials when connecting to the specified database by setting the following environment variables:
+To use a normal database you must configure the application to use your credentials when connecting to the
+specified database by setting the following environment variables:
 
  - **DB_USERNAME** : The username that you use when you connect to the database
  - **DB_PASSWORD** : The password that you use when you connect to the database
  - **DATASOUCE_URL** : The url to your database. You can use any database that is compatible with Spring Boot like PostgreSQL or MySQL etc, however note that
  this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
 
+Note that **the containerized profile does not use an H2 database by default** and if you set it active but forget to
+provide the above environment variables the server's execution will fail.
+
+## TLS configuration
+You can use the provided certificates or you can override the following properties to implement your own
+configuration
+
+- **server.ssl.key-store** : The location of the keyfile
+- **server.ssl.key-store-password** : The password required ( if required ) in order to access the key file
+- **server.ssl.key-store-password** : The type of the keyfile
+- **server.ssl.keyAlias** : The alias associated with the key file
+
+Note: mTLS is currently not supported
+
 ## Locally
+
+### Build with maven 
 You will need to have the following installed on your machine:
 
 * Java 17+
@@ -53,6 +82,16 @@ To build and run the project, follow these steps:
 * Navigate to the project directory
 * Build the project: `mvn clean install`
 * Run the project: `mvn spring-boot:run`
+
+### Native executable
+You can also download the latest native executable
+( https://github.com/ttomtsis/DVDApplication/releases ), configure it as described above
+and run it without any prerequisites
+
+In case you need to create a new executable use maven's native profile:
+If maven is installed use: `mvn -Pnative native:compile`
+
+Alternatively you can use the maven wrapper: `./mvnw -Pnative native:compile`
 
 ## Docker
 To run the project on Docker, make sure you have Docker installed on your machine.
@@ -72,6 +111,10 @@ The provided scripts use a MySQL Database by default
 * Start the containers by running the compose-start.bat file: `./compose-start.bat`
 * Delete the containers, networks and associated vlumes by running the compose-stop.bat file: `./compose-stop.bat`
 
+### Option 3: Dockerhub
+* Check out the associated dockerhub repository: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
+* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:native-image`
+
 ## Kubernetes
 To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
@@ -84,6 +127,7 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 
 # Endpoints
 
+**DVD CRUD Operations**
 * GET `/api/dvds` - Retrieves a list of all DVDs.
 * GET `/api/dvds?name=dvdName` - Retrieves a list of DVDs that match the specified title.
 * GET `/api/dvds/{dvdID}` - Retrieves details about a specific DVD.
@@ -91,3 +135,21 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 * PUT `/api/dvds/{dvdID}` - Updates the quantity and genre of an existing DVD.
 * DELETE `/api/dvds/{dvdID}` - Deletes a DVD from the database.
 
+**Actuator**
+
+**NOTE:** If the server is running as a native image only the `/server/health` and `/server/logs`
+endpoints are available.
+* GET `/server` - Provides a list of all actuator endpoints
+* GET `/server/info` - Returns basic information about the application
+* GET `/server/mappings` - Provides an exhaustive list and description of all the endpoints
+* GET `/server/logs` - Returns the contents of the servers logfile
+* GET `/server/beans` - Returns an exhaustive list and description of the application's beans
+* GET `/server/health` - Return the server's running state
+* GET `/server/health/{*path}` - Provides information for the specified custom health metric
+* GET `/server/env` - Provides a list of all spring configured properties
+* GET `/server/env/{toMatch}` - Returns information about the specified property
+* GET `/server/loggers` - Provides a list of all available loggers
+* GET `/server/loggers/{name}` - Returns the logging level of a specific logger
+* POST `/server/loggers/{name}` - Change the `configuredLevel` of the specified logger
+* GET `/server/metrics` - Provides a list of the supported application metrics
+* GET `/server/metrics/{MetricName}` - Returns the value of the specified metric

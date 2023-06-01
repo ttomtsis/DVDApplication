@@ -15,7 +15,7 @@ WORKDIR /opt/DVDApplication
 # due to the smaller size of the bellsoft openjdk compared to a maven baseimage
 # Note that compiling the jar can take some time, so the setup script
 # also offers the option to pull the image from dockerhub
-RUN ./mvnw clean install
+RUN ./mvnw clean package
 
 # Now using only the jre in order to trim down the resulting image size
 FROM bellsoft/liberica-runtime-container:jre-slim

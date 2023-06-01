@@ -11,10 +11,17 @@
 			"name": "Get all DVD's",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "dd98e05a-a46d-4dcd-a5ae-add051b4969c",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/dvds",
-					"protocol": "http",
+					"raw": "https://127.0.0.1:8080/api/dvds",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
@@ -52,14 +59,13 @@
 				"header": [
 					{
 						"key": "X-XSRF-TOKEN",
-						"value": "6b74b1d2-130a-498f-b66b-eba573188f11",
-						"type": "text",
-						"disabled": true
+						"value": "b6158926-3a3b-482f-8897-b7fb385cab40",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\" : \"wulf 132\",\r\n    \"reserve\" : 10,\r\n    \"genre\" : \"Action\"\r\n}",
+					"raw": "{\r\n    \"name\" : \"Beowulf\",\r\n    \"reserve\" : 10,\r\n    \"genre\" : \"Action\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -67,8 +73,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080/api/dvds",
-					"protocol": "http",
+					"raw": "https://127.0.0.1:8080/api/dvds",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
@@ -90,7 +96,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/dvds/1",
+					"raw": "https://localhost:8080/api/dvds/1",
+					"protocol": "https",
 					"host": [
 						"localhost"
 					],
@@ -110,7 +117,8 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/dvds/1",
+					"raw": "https://localhost:8080/api/dvds/1",
+					"protocol": "https",
 					"host": [
 						"localhost"
 					],
@@ -139,7 +147,8 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/dvds/1",
+					"raw": "https://localhost:8080/api/dvds/1",
+					"protocol": "https",
 					"host": [
 						"localhost"
 					],
@@ -159,7 +168,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/dvds/search?name=wulf132",
+					"raw": "https://localhost:8080/api/dvds/search?name=wulf",
+					"protocol": "https",
 					"host": [
 						"localhost"
 					],
@@ -172,7 +182,7 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "wulf132"
+							"value": "wulf"
 						}
 					]
 				}
@@ -228,8 +238,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8080 /api/dvds",
-					"protocol": "http",
+					"raw": "https://127.0.0.1:8080 /api/dvds",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
