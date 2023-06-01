@@ -4,9 +4,9 @@
 
 @echo off
 :loop
-echo (1) - Build image locally using dockerfile - slow
-echo (2) - Pull image from dockerhub - fast
-echo (3) - Pull windows native-image from dockerhub - fast
+echo (1) - Build image locally using dockerfile - very slow
+echo (2) - Pull image from dockerhub ( 170 MB ) - fast
+echo (3) - Pull native-image from dockerhub ( 60 MB ) - faster
 set /p input="Enter your choice ( 1 / 2 / 3 ): "
 if /i "%input%"=="1" (
     docker build -t dvd_spring_server .
