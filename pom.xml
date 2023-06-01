@@ -31,6 +31,13 @@
             <version>3.0.5</version>
         </dependency>
 
+        <!--> Spring Actuator </!-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>3.0.6</version>
+        </dependency>
+
         <!--> Hibernate Validator </!-->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -99,62 +106,71 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.5</version>
                 <configuration>
                     <imageName>ttomtsis/dvd-spring-server:latest</imageName>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <configuration>
-                    <buildArgs>
-                        <arg>-H:DashboardDump=diagnostic-data</arg>
-                        <arg>-H:+DashboardAll</arg>
-                    </buildArgs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+                     <image>
+                         <env>
+                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                             <BP_BINARY_COMPRESSION_METHOD>upx</BP_BINARY_COMPRESSION_METHOD>
+                             <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:IncludeResources="tls/myserver.p12"</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                         </env>
+                     </image>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.graalvm.buildtools</groupId>
+                 <artifactId>native-maven-plugin</artifactId>
+                 <configuration>
+                     <buildArgs>
+                         <arg>-H:DashboardDump=./target/diagnostic-data</arg>
+                         <arg>-H:+DashboardAll</arg>
+                         <arg>-H:IncludeResources="tls/myserver.p12"</arg>
+                     </buildArgs>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
 
-    <repositories>
+     <repositories>
 
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+         <repository>
+             <id>spring-milestones</id>
+             <name>Spring Milestones</name>
+             <url>https://repo.spring.io/milestone</url>
+             <snapshots>
+                 <enabled>false</enabled>
+             </snapshots>
+         </repository>
 
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
+         <repository>
+             <id>spring-snapshots</id>
+             <name>Spring Snapshots</name>
+             <url>https://repo.spring.io/snapshot</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+         </repository>
 
-    </repositories>
+     </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
+     <pluginRepositories>
+         <pluginRepository>
+             <id>spring-milestones</id>
+             <name>Spring Milestones</name>
+             <url>https://repo.spring.io/milestone</url>
+             <snapshots>
+                 <enabled>false</enabled>
+             </snapshots>
+         </pluginRepository>
+         <pluginRepository>
+             <id>spring-snapshots</id>
+             <name>Spring Snapshots</name>
+             <url>https://repo.spring.io/snapshot</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+         </pluginRepository>
+     </pluginRepositories>
 
-</project>
+ </project>
