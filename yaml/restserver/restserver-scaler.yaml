@@ -1,0 +1,15 @@
+# Scaler for the Spring Boot REST Server
+# Aims to increase performance and scale up and down the number of
+# server pods. The resource metrics are currently roughly and randomly calculated
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: rest-server-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: rest-server-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 30
