@@ -136,6 +136,9 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 * DELETE `/api/dvds/{dvdID}` - Deletes a DVD from the database.
 
 **Actuator**
+
+**NOTE:** If the server is running as a native image only the `/server/health` and `/server/logs`
+endpoints are available.
 * GET `/server` - Provides a list of all actuator endpoints
 * GET `/server/info` - Returns basic information about the application
 * GET `/server/mappings` - Provides an exhaustive list and description of all the endpoints
