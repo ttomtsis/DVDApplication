@@ -64,8 +64,6 @@ public class DVDService {
     }
 
     // Update a DVD
-    // Also check issue #17 regarding the 'name' field
-    // https://github.com/ttomtsis/DVDApplication/issues/17
     public DVD updateDVDByID(long id, DVD newDVD) {
         // Check if the DVD exists
         DVD existingDVD = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
