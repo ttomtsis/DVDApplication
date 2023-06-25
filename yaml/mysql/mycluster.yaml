@@ -1,0 +1,42 @@
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: mycluster
+spec:
+  secretName: db-secret
+  imagePullPolicy: IfNotPresent
+  tlsUseSelfSigned: true
+  instances: 3
+  edition: community
+
+  podSpec:
+    containers:
+      - name: mysql
+        env:
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: mysql_user
+                name: db-secret
+
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: mysql_password
+                name: db-secret
+
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: mysql_database
+                name: dvd-config
+
+  router:
+    instances: 1
+
+  datadirVolumeClaimTemplate:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
