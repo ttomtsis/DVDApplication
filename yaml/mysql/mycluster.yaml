@@ -1,3 +1,6 @@
+# InnoDB Cluster implementation through the use of MySQL Operator
+# Operator was installed using Helm
+
 apiVersion: mysql.oracle.com/v2
 kind: InnoDBCluster
 metadata:
