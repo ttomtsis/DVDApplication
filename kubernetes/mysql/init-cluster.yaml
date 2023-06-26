@@ -1,5 +1,13 @@
 # Creates a pod that will be used to initialize the InnoDB cluster
-# with the required databases and user accounts
+# with the required databases and user accounts.
+
+# NOTE: Restart Policy is set to onFailure so the pod will spam the
+# Cluster with requests until the cluster is created, when the cluster
+# is created, the pod's status will be Complete.
+# HOWEVER, if for some reason
+# the cluster already contains the required resources, or the pod is unable to
+# initialize the cluster, this will result in a waste of resources since the
+# requests will continue spam the cluster.
 
 apiVersion: v1
 kind: Pod
@@ -48,4 +56,4 @@ spec:
 
       stdin: true
       tty: true
-  restartPolicy: Never
+  restartPolicy: OnFailure
