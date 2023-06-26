@@ -5,9 +5,11 @@ kind: ConfigMap
 metadata:
   name: dvd-config
 data:
+  # Used by the init-pod to create a database of the same name on the InnoDB cluster
   mysql_database: "mydb"
 
-  datasource_url: "jdbc:mysql://mycluster:3306/mydb"
+  # Spring Server configuration settings
+  datasource_url: "jdbc:mysql://my-innodb-cluster:3306/mydb"
   spring_profiles_active: "containerized"
 
 
