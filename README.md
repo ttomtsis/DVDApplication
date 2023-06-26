@@ -114,6 +114,10 @@ NOTE: If you pull a tag other than 'latest' you will need to tag the pulled imag
 
 ## Kubernetes
 To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
+You will also need to install the MySQL Operator ( this process will be automated in the future ).
+For info on how to install the MySQL Operator refer to its official GitHub repository:
+https://github.com/mysql/mysql-operator
+
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the yaml folder in the project directory
 * Run the `setup.py` file. This script initializes a minikube cluster with a REST server, and an InnoDB Cluster with 3 databases
