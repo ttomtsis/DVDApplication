@@ -14,7 +14,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * Spring Actuator 
 * Docker support
 * Kubernetes support
-* MySQL and InnoDB Cluster
+* MySQL and MySQL Operator
 * GraalVM Native Image
 * TLS v1.3 support with dummy certificates
 
@@ -30,19 +30,18 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of **two profiles**:
+The spring boot app consists of **two profiles** similar to each other:
 
-1) The '**default profile**' which by default uses an H2 database but can be
-configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
+1) The '**default profile**' should be used for local development and testing. Used an H2 database unless configured otherwise
+and lacks more advanced features spring actuator.
 
-2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
-It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
+2) The '**containerized profile**' should be used when the application is containerised in docker, deployed in Kubernetes
+**or if running as a native image or executable**. It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
 Set the active profile in windows powershell: `$env:SPRING_PROFILES_ACTIVE="containerized"`
-NOTE: This profile should be used in conjunction with the native executables
 
 A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
 There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
-**The scripts provided below were created for the Windows OS**.
+**The scripts used below were created for the Windows OS**.
 
 ## Database configuration
 To use a normal database you must configure the application to use your credentials when connecting to the
@@ -52,9 +51,6 @@ specified database by setting the following environment variables:
  - **DB_PASSWORD** : The password that you use when you connect to the database
  - **DATASOUCE_URL** : The url to your database. You can use any database that is compatible with Spring Boot like PostgreSQL or MySQL etc, however note that
  this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
-
-Note that **the containerized profile does not use an H2 database by default** and if you set it active but forget to
-provide the above environment variables the server's execution will fail.
 
 ## TLS configuration
 You can use the provided certificates or you can override the following properties to implement your own
@@ -95,7 +91,6 @@ Alternatively you can use the maven wrapper: `./mvnw -Pnative native:compile`
 
 ## Docker
 To run the project on Docker, make sure you have Docker installed on your machine.
-The provided scripts use a MySQL Database by default
 
 ### Option 1: Manual Docker Build
 * Clone the repository to your local machine `git clone https://github.com/ttomtsis/DVDApplication`
@@ -109,21 +104,22 @@ The provided scripts use a MySQL Database by default
 * Clone the repository to your local machine `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the docker-scripts directory, located inside the project directory
 * Start the containers by running the compose-start.bat file: `./compose-start.bat`
-* Delete the containers, networks and associated vlumes by running the compose-stop.bat file: `./compose-stop.bat`
+* Delete the containers, networks and associated volumes by running the compose-stop.bat file: `./compose-stop.bat`
 
 ### Option 3: Dockerhub
 * Check out the associated dockerhub repository: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
-* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:native-image`
+* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:latest`
+
+NOTE: If you pull a tag other than 'latest' you will need to tag the pulled image to 'dvd-spring-server:latest'
 
 ## Kubernetes
 To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the yaml folder in the project directory
-* Run the `setup.bat` file. This script initializes a minikube cluster with a REST server, a MySQL Router and an InnoDB cluster with 3 MySQL databases 
+* Run the `setup.py` file. This script initializes a minikube cluster with a REST server, and an InnoDB Cluster with 3 databases
 * Get the minikube IP address. Keep this window open.
 * Access the application's endpoints at the given IP address
 * If you want to remove all traces of the application run the `delete.bat` script
-* Experimental secret encryption in the cluster through `enable-encryption.bat` script
 
 # Endpoints
 
