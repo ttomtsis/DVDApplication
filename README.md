@@ -3,7 +3,9 @@
 This is part of a university course from University of the Aegean,
 aiming to provide students with practical experience on cloud technologies
 
-**Concept**: Java Spring Boot application that provides a simple RESTful API service for a DVD store. The API allows users to perform CRUD operations on a MySQL database containing DVD records. The application includes user authentication using Spring Security, and follows HATEOAS principles for API design. It also includes Docker for containerization and can be run on a minikube created Kubernetes cluster.
+**Concept**: 
+
+Java Spring Boot application that provides a simple RESTful API service for a DVD store. The API allows users to perform CRUD operations on a MySQL database containing DVD records. The application includes user authentication using Spring Security, and follows HATEOAS principles for API design. It also includes Docker for containerization and can be run on a minikube created Kubernetes cluster.
 
 Associated DockerHub container repository: 
 https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
@@ -11,11 +13,10 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 # Features
 * Role-based authorization, Basic Authentication
 * HATEOAS
-* Spring Actuator 
 * Docker support
 * Kubernetes support
-* MySQL and MySQL Operator
-* GraalVM Native Image
+* MySQL and MySQL Operator with InnoDB cluster
+* GraalVM Native Image and executable
 * TLS v1.3 support with dummy certificates
 
 # Technology stack
@@ -26,7 +27,7 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * HATEOAS 3
 * Docker
 * Kubernetes
-* GraalVM 22 ( for native image creation )
+* GraalVM 22
 
 # Getting Started
 To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
@@ -40,7 +41,7 @@ and lacks more advanced features spring actuator.
 Set the active profile in windows powershell: `$env:SPRING_PROFILES_ACTIVE="containerized"`
 
 A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
-There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
+There is also a server certificate provided, which has been signed by the dummy CA. Feel free to replace those certificates as needed.
 **The scripts used below were created for the Windows OS**.
 
 ## Database configuration
@@ -49,19 +50,16 @@ specified database by setting the following environment variables:
 
  - **DB_USERNAME** : The username that you use when you connect to the database
  - **DB_PASSWORD** : The password that you use when you connect to the database
- - **DATASOUCE_URL** : The url to your database. You can use any database that is compatible with Spring Boot like PostgreSQL or MySQL etc, however note that
- this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
+ - **DATASOUCE_URL** : The url pointing to the location of your database, either local or remote.
 
 ## TLS configuration
-You can use the provided certificates or you can override the following properties to implement your own
+You can use the provided certificates or you can override the following properties, via environment variables, to implement your own
 configuration
 
 - **server.ssl.key-store** : The location of the keyfile
 - **server.ssl.key-store-password** : The password required ( if required ) in order to access the key file
 - **server.ssl.key-store-password** : The type of the keyfile
 - **server.ssl.keyAlias** : The alias associated with the key file
-
-Note: mTLS is currently not supported
 
 ## Locally
 
@@ -70,7 +68,7 @@ You will need to have the following installed on your machine:
 
 * Java 17+
 * Maven 3.9.1+, or you can use the provided maven wrapper
-* A database compatible with Spring Boot, either installed or running in a container.
+* MySQL Server installed or running in a container.
 
 To build and run the project, follow these steps:
 
@@ -83,11 +81,6 @@ To build and run the project, follow these steps:
 You can also download the latest native executable
 ( https://github.com/ttomtsis/DVDApplication/releases ), configure it as described above
 and run it without any prerequisites
-
-In case you need to create a new executable use maven's native profile:
-If maven is installed use: `mvn -Pnative native:compile`
-
-Alternatively you can use the maven wrapper: `./mvnw -Pnative native:compile`
 
 ## Docker
 To run the project on Docker, make sure you have Docker installed on your machine.
@@ -110,10 +103,11 @@ To run the project on Docker, make sure you have Docker installed on your machin
 * Check out the associated dockerhub repository: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:latest`
 
-NOTE: If you pull a tag other than 'latest' you will need to tag the pulled image to 'dvd-spring-server:latest'
+**NOTE**: If you pull a tag other than 'latest' you will need to tag the pulled image to 'dvd-spring-server:latest'
+in order for the script to work properly
 
 ## Kubernetes
-To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
+To run the project on Minikube, make sure you have python 3, minikube and kubectl installed and properly configured on your machine.
 You will also need to install the MySQL Operator ( this process will be automated in the future ).
 For info on how to install the MySQL Operator refer to its official GitHub repository:
 https://github.com/mysql/mysql-operator
@@ -137,7 +131,7 @@ https://github.com/mysql/mysql-operator
 
 **Actuator**
 
-**NOTE:** If the server is running as a native image only the `/server/health` and `/server/logs`
+**NOTE:** If the server is running as a native image or executable, only the `/server/health` and `/server/logs`
 endpoints are available.
 * GET `/server` - Provides a list of all actuator endpoints
 * GET `/server/info` - Returns basic information about the application
