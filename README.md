@@ -30,7 +30,14 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * GraalVM 22
 
 # Getting Started
-To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
+To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube.
+
+You will need to have the following installed on your machine:
+
+* Java 17+
+* Maven 3.9.1+, or you can use the provided maven wrapper
+* MySQL Server installed or running in a container ( Unless the default H2 database suits your needs ).
+
 The spring boot app consists of **two profiles** similar to each other:
 
 1) The '**default profile**' should be used for local development and testing. Used an H2 database unless configured otherwise
@@ -63,19 +70,16 @@ configuration
 
 ## Locally
 
-### Option 1: Build with maven 
-You will need to have the following installed on your machine:
+### Option 1: Build with maven
 
-* Java 17+
-* Maven 3.9.1+, or you can use the provided maven wrapper
-* MySQL Server installed or running in a container.
-
-To build and run the project, follow these steps:
+To build and run the project using maven, follow these steps:
 
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the project directory
 * Build the project: `mvn clean install`
 * Run the project: `mvn spring-boot:run`
+
+**NOTE**: You can also use the provided maven wrapper
 
 ### Option 2: Native executable
 You can also download the latest native executable
