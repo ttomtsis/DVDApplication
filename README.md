@@ -63,7 +63,7 @@ configuration
 
 ## Locally
 
-### Build with maven 
+### Option 1: Build with maven 
 You will need to have the following installed on your machine:
 
 * Java 17+
@@ -77,7 +77,7 @@ To build and run the project, follow these steps:
 * Build the project: `mvn clean install`
 * Run the project: `mvn spring-boot:run`
 
-### Native executable
+### Option 2: Native executable
 You can also download the latest native executable
 ( https://github.com/ttomtsis/DVDApplication/releases ), configure it as described above
 and run it without any prerequisites
@@ -116,7 +116,7 @@ For info on how to install the MySQL Operator refer to its official GitHub repos
 
 https://github.com/mysql/mysql-operator
 
-### Using the python scripts
+### Option 1: Using the python scripts
 
 
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
@@ -126,7 +126,7 @@ https://github.com/mysql/mysql-operator
 * Access the application's endpoints at the given IP address
 * If you want to remove all traces of the application run the `delete.py` script
 
-### Creating the cluster manually
+### Option 2: Creating the cluster manually
 Open a terminal inside the 'kubernetes' folder and follow the sequence of steps provided below:
 1) Create the config map `kubectl apply -f ./configs/dvd-conf.yaml`
 2) Create the secret `kubectl apply -f ./database/db-secret.yaml`
