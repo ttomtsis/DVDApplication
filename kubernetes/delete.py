@@ -4,50 +4,52 @@
 import os
 import subprocess
 
-# Get number of DB pods created, so that all pv's are deleted
-os.system("echo Getting number of database pods created")
-command = "kubectl describe sts mysql-clusterling -n default | awk \'/Replicas:/ {print $2}\'"
-desired_replicas = subprocess.check_output(command, shell=True)
-desired_replicas = desired_replicas.decode().strip()
-os.system("echo Number of replicas: " + desired_replicas)
-desired_replicas = int(desired_replicas)
+clusterName = "my-innodb-cluster"
+clusterInstances = 3
 
-# Delete service and deployment of rest server
+
+def getClusterInstances():
+    global clusterInstances
+
+    os.system("echo Getting number of cluster instances")
+
+    # awk \'/Replicas:/ {print $2}\'
+    command = 'kubectl get innodbcluster ' + clusterName + ' | awk "/1/ {print $4}"'
+    clusterInstances = subprocess.check_output(command, shell=True)
+    clusterInstances = int(clusterInstances.decode().strip())
+
+    os.system("echo Number of instances is: " + str(clusterInstances))
+
+
+# Delete service and deployment of REST server
+os.system("echo Deleting REST server resources")
 os.system("kubectl delete service rest-server-service")
 os.system("kubectl delete deployment rest-server-deployment")
 
-# Delete MySQL Router service and set
-os.system("kubectl delete service mysql-router-service")
-os.system("kubectl delete statefulset mysql-router")
+# Delete InnoDB cluster
+os.system("echo Deleting InnoDB Cluster")
+os.system("kubectl delete innodbcluster my-innodb-cluster")
 
-# Delete MySQL DB Set and services
-os.system("kubectl delete statefulset mysql-clusterling")
-os.system("kubectl delete service mysql-service")
-
-# Delete PVC's
-command = "kubectl get pvc | awk '/mysql-clusterling/ {print $1}'"
+# Delete InnoDB cluster PVC's
+os.system("echo Deleting InnoDB Cluster PVC's")
+command = 'kubectl get pvc | awk "/datadir-my-innodb-cluster/ {print $1}"'
 result = subprocess.check_output(command, shell=True)
 result = result.decode().strip()
 pVolumeClaims = result.split("\n")
 
-for x in range (0, desired_replicas, 1):
-    command = "kubectl delete pvc "+pVolumeClaims.__getitem__(x)
+for x in range(0, clusterInstances, 1):
+    command = "kubectl delete pvc " + pVolumeClaims.__getitem__(x)
     subprocess.run(command, shell=True)
 
+# Delete InnoDB Cluster backup PVC and PV
+os.system("kubectl delete pvc innodb-backup-pvc")
+os.system("kubectl delete pv innodb-backup-pv")
+
 # Delete config map and secret
+os.system("echo Deleting config map and secret")
 os.system("kubectl delete configmap dvd-config")
 os.system("kubectl delete secret db-secret")
 
-# Delete PV's ( in case minikube did not delete them automatically )
-command = "kubectl get pv | awk '/mysql-clusterling/ {print $1}'"
-os.system("echo command is: " + command)
-result = subprocess.check_output(command, shell=True)
-result = result.decode().strip()
-pvolumes = result.split("\n")
-
-for x in range (0, desired_replicas, 1):
-    command = "kubectl delete pv "+pvolumes.__getitem__(x)
-    subprocess.run(command, shell=True)
-
-
-
+# Delete pod used to initialize the cluster
+os.system("echo Deleting InnoDB cluster initialization pod")
+os.system("kubectl delete pod mysql-init-cluster")
