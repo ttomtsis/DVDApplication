@@ -107,18 +107,37 @@ To run the project on Docker, make sure you have Docker installed on your machin
 in order for the script to work properly
 
 ## Kubernetes
-To run the project on Minikube, make sure you have python 3, minikube and kubectl installed and properly configured on your machine.
-You will also need to install the MySQL Operator ( this process will be automated in the future ).
+To run the project on Minikube, you can use either the provided python scripts or create the cluster manually.
+Make sure you have python 3, minikube and kubectl installed and properly configured on your machine.
+You will also need to install the MySQL Operator and have the 'awk' cli utility installed ( this process will be automated in the future,
+the awk utility is required for the deletion script to function ).
+
 For info on how to install the MySQL Operator refer to its official GitHub repository:
+
 https://github.com/mysql/mysql-operator
 
+### Using the python scripts
+
+
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
-* Navigate to the yaml folder in the project directory
+* Navigate to the 'kubernetes' folder in the project directory
 * Run the `setup.py` file. This script initializes a minikube cluster with a REST server, and an InnoDB Cluster with 3 databases
 * Get the minikube IP address. Keep this window open.
 * Access the application's endpoints at the given IP address
-* If you want to remove all traces of the application run the `delete.bat` script
+* If you want to remove all traces of the application run the `delete.py` script
 
+### Creating the cluster manually
+Open a terminal inside the 'kubernetes' folder and follow the sequence of steps provided below:
+1) Create the config map `kubectl apply -f ./configs/dvd-conf.yaml`
+2) Create the secret `kubectl apply -f ./database/db-secret.yaml`
+3) Create the persistent volume and claim the InnoDB cluster will use for backups `kubectl apply -f ./database/innodb-backup.yaml`
+4) Create the InnoDB cluster `kubectl apply -f ./database/innodb-cluster.yaml`
+5) Initialize the InnoDB cluster `kubectl apply -f ./database/init-cluster.yaml`
+6) Wait for the cluster's creation
+7) Create the rest server's service `kubectl apply -f ./rest-server/rest-server-service.yaml`
+8) Create the rest server's deployment `kubectl apply -f ./rest-server/rest-server-deployment.yaml`
+9) Wait for the rest server to fully initialize ( When using a native image this won't take more than 1 second )
+10) Use minikube to expose the rest server `minikube service rest-server-service` 
 # Endpoints
 
 **DVD CRUD Operations**
