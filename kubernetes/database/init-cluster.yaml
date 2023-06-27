@@ -1,0 +1,59 @@
+# Creates a pod that will be used to initialize the InnoDB cluster
+# with the required databases and user accounts.
+
+# NOTE: Restart Policy is set to onFailure so the pod will spam the
+# Cluster with requests until the cluster is created, when the cluster
+# is created, the pod's status will be Complete.
+# HOWEVER, if for some reason
+# the cluster already contains the required resources, or the pod is unable to
+# initialize the cluster, this will result in a waste of resources since the
+# requests will continue spam the cluster.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-init-cluster
+spec:
+  containers:
+    - name: mysql-init-container
+      image: container-registry.oracle.com/mysql/community-operator
+      env:
+        - name: ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: rootUser
+        - name: ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: rootPassword
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mysql_user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: mysql_password
+        - name: MYSQL_DB
+          valueFrom:
+            configMapKeyRef:
+              name: dvd-config
+              key: mysql_database
+      args:
+        - mysqlsh
+        - $(ROOT_USERNAME)@my-innodb-cluster:3306
+        - --password=$(ROOT_PASSWORD)
+        - --sql
+        - -e
+        - "CREATE DATABASE $(MYSQL_DB);
+        CREATE USER '$(MYSQL_USERNAME)'@'%' IDENTIFIED BY '$(MYSQL_PASSWORD)';
+         GRANT CREATE, SELECT, INSERT, UPDATE, DELETE ON $(MYSQL_DB).* TO '$(MYSQL_USERNAME)'@'%';
+          FLUSH PRIVILEGES;"
+
+      stdin: true
+      tty: true
+  restartPolicy: OnFailure
