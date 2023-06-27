@@ -21,3 +21,19 @@ spec:
     resources:
       requests:
         storage: 1Gi
+
+  backupProfiles:
+  - name: daily-dvd-backup
+    dumpInstance:
+      dumpOptions:
+        consistent: true
+
+      storage:
+        persistentVolumeClaim:
+          # Backups are saved by default in /mnt/storage
+          claimName: innodb-backup-pvc
+  backupSchedules:
+    - name: daily-midnight-backup
+      schedule: "0 0 * * *"
+      backupProfileName: daily-dvd-backup
+      enabled: true
