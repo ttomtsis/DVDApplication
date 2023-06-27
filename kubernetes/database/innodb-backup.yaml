@@ -1,0 +1,28 @@
+# PV and PVC used during the backup process of the InnoDB cluster
+# Placed in /tmp directory and with default size of 2 GB
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: innodb-backup-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: innodb-backup-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
