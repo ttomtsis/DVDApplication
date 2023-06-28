@@ -15,7 +15,7 @@ import java.util.List;
 * to respective service implementations of DVDService
 */
 @RestController
-@RequestMapping(value = "/api/dvds")
+@RequestMapping(value = "/api/v1/dvds")
 public class DVDController {
 
     private final DVDService service; // Service class
