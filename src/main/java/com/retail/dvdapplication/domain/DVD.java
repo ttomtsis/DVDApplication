@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.util.Objects;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -80,10 +82,11 @@ public class DVD  extends RepresentationModel<DVD> {
     // UTILITY
 
     @Override
-    public boolean equals(Object a) {
-        DVD dvd = (DVD) a;
-        if (this.id == dvd.id && this.genre.equals(dvd.genre) && this.reserve == dvd.reserve) {
-            return true;
+    public boolean equals(Object obj) {
+        if (obj instanceof DVD dvdObj){
+
+            return Objects.equals(this.id, dvdObj.id) && this.genre.equals(dvdObj.genre) && Objects.equals(this.reserve, dvdObj.reserve);
+
         }
         return false;
     }
