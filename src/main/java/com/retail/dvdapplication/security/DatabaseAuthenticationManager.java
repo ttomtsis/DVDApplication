@@ -2,7 +2,7 @@ package com.retail.dvdapplication.security;
 
 
 import com.retail.dvdapplication.exception.MissingCredentialsException;
-import com.retail.dvdapplication.repository.EmployeeRepository;
+import com.retail.dvdapplication.model.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
