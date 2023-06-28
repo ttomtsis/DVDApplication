@@ -80,7 +80,7 @@ public class DVDService {
        if ( newDVD.getReserve() != null ) {
            existingDVD.setReserve(newDVD.getReserve());
         }
-        return newDVD;
+        return existingDVD;
 
     }
 
