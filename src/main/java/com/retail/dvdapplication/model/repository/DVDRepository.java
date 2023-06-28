@@ -1,6 +1,6 @@
-package com.retail.dvdapplication.repository;
+package com.retail.dvdapplication.model.repository;
 
-import com.retail.dvdapplication.domain.DVD;
+import com.retail.dvdapplication.model.domain.DVD;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
