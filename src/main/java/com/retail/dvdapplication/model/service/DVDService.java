@@ -9,10 +9,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.List;
 
 /*
 * Application logic implementation.
@@ -33,8 +34,8 @@ public class DVDService {
     private static final Logger log = LoggerFactory.getLogger("DVD Service");
 
     // Return all dvds in database
-    public List<DVD> searchAllDVDs() {
-        List<DVD> searchResults = repository.findAll();
+    public Page<DVD> searchAllDVDs(Pageable pageable) {
+        Page<DVD> searchResults = repository.findAll(pageable);
         for ( DVD d : searchResults ) {
             d.addLinks();
         }
@@ -49,8 +50,8 @@ public class DVDService {
     }
 
     // Return all dvds whose titles are similar to the requested name
-    public List<DVD> searchDVDByName(@NotBlank String name) {
-        List<DVD> searchResults = repository.findByNameContainingIgnoreCase(name);
+    public Page<DVD> searchDVDByName(@NotBlank String name, @NonNull Pageable pageable) {
+        Page<DVD> searchResults = repository.findByNameContainingIgnoreCase(name, pageable);
         for ( DVD d : searchResults ) {
             d.addLinks();
         }
