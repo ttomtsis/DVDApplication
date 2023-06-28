@@ -4,11 +4,12 @@ import com.retail.dvdapplication.model.domain.DVD;
 import com.retail.dvdapplication.model.service.DVDService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /*
 * Creates mappings for HTTP Methods and links them
@@ -32,15 +33,19 @@ public class DVDController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<DVD>> searchAllDVDs() {
+    public ResponseEntity<Page<DVD>> searchAllDVDs(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "10") int size) {
         log.info("New DVD Search Request: Search All");
-        return new ResponseEntity<>(service.searchAllDVDs(), HttpStatus.OK);
+        Pageable pageable = PageRequest.of(page, size);
+        return new ResponseEntity<>(service.searchAllDVDs(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<DVD>> searchDVDByName(@RequestParam String name) {
+    public ResponseEntity<Page<DVD>> searchDVDByName(@RequestParam String name, @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "10") int size) {
         log.info("New DVD Search Request: Search name - " + name);
-        return new ResponseEntity<>(service.searchDVDByName(name), HttpStatus.OK);
+        Pageable pageable = PageRequest.of(page, size);
+        return new ResponseEntity<>(service.searchDVDByName(name, pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
