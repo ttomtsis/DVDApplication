@@ -4,6 +4,7 @@ import com.retail.dvdapplication.controller.DVDController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.NonNull;
 
 import java.util.Objects;
 
@@ -39,10 +40,10 @@ public class DVD  extends RepresentationModel<DVD> {
     // Adds links to the object
     public void addLinks() {
         add(linkTo(methodOn(DVDController.class).searchDVDByID(this.id)).withSelfRel());
-        add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name)).withSelfRel());
+        add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name, 0, 1)).withSelfRel());
         add(linkTo(methodOn(DVDController.class).deleteDVDByID(this.id)).withRel("Delete"));
         add(linkTo(methodOn(DVDController.class).updateDVDByID(this.id,null)).withRel("Update"));
-        add(linkTo(methodOn(DVDController.class).searchAllDVDs()).withRel("All DVDs"));
+        add(linkTo(methodOn(DVDController.class).searchAllDVDs(0, 10)).withRel("All DVDs"));
     }
 
     // SETTERS
@@ -97,6 +98,7 @@ public class DVD  extends RepresentationModel<DVD> {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "DVD {" + "id=" + this.id + ", name='" + this.name + '\'' + ", genre='" + this.genre + '\'' + ", reserve='" + this.reserve + '\'' + '}';
     }
