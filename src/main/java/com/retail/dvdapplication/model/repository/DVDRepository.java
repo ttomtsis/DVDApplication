@@ -1,6 +1,6 @@
 package com.retail.dvdapplication.model.repository;
 
-import com.retail.dvdapplication.model.domain.DVD;
+import com.retail.dvdapplication.model.entity.DVD;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

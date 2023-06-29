@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.model.service;
 
 import com.retail.dvdapplication.exception.DVDNotFoundException;
-import com.retail.dvdapplication.model.domain.DVD;
+import com.retail.dvdapplication.model.entity.DVD;
 import com.retail.dvdapplication.model.repository.DVDRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

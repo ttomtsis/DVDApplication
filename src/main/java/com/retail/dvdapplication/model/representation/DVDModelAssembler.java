@@ -1,7 +1,7 @@
 package com.retail.dvdapplication.model.representation;
 
 import com.retail.dvdapplication.controller.DVDController;
-import com.retail.dvdapplication.model.domain.DVD;
+import com.retail.dvdapplication.model.entity.DVD;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.PagedModel;

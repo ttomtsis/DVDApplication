@@ -1,6 +1,6 @@
 package com.retail.dvdapplication.controller;
 
-import com.retail.dvdapplication.model.domain.DVD;
+import com.retail.dvdapplication.model.entity.DVD;
 import com.retail.dvdapplication.model.representation.DVDModel;
 import com.retail.dvdapplication.model.representation.DVDModelAssembler;
 import com.retail.dvdapplication.model.service.DVDService;

@@ -1,6 +1,6 @@
 package com.retail.dvdapplication.configuration;
 
-import com.retail.dvdapplication.model.domain.Employee;
+import com.retail.dvdapplication.model.entity.Employee;
 import com.retail.dvdapplication.model.repository.EmployeeRepository;
 import com.retail.dvdapplication.security.DatabaseAuthenticationManager;
 import com.retail.dvdapplication.security.MyBasicAuthenticationEntryPoint;
