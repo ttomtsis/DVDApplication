@@ -1,15 +1,11 @@
 package com.retail.dvdapplication.model.domain;
 
-import com.retail.dvdapplication.controller.DVDController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.NonNull;
 
 import java.util.Objects;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -37,14 +33,6 @@ public class DVD  extends RepresentationModel<DVD> {
         this.reserve = reserve;
     }
 
-    // Adds links to the object
-    public void addLinks() {
-        add(linkTo(methodOn(DVDController.class).searchDVDByID(this.id)).withSelfRel());
-        add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name, 0, 1)).withSelfRel());
-        add(linkTo(methodOn(DVDController.class).deleteDVDByID(this.id)).withRel("Delete"));
-        add(linkTo(methodOn(DVDController.class).updateDVDByID(this.id,null)).withRel("Update"));
-        add(linkTo(methodOn(DVDController.class).searchAllDVDs(0, 10)).withRel("All DVDs"));
-    }
 
     // SETTERS
     public void setName(String name) {
@@ -61,7 +49,7 @@ public class DVD  extends RepresentationModel<DVD> {
 
     // GETTERS
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
