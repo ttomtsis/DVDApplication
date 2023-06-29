@@ -35,33 +35,27 @@ public class DVDService {
 
     // Return all dvds in database
     public Page<DVD> searchAllDVDs(Pageable pageable) {
-        Page<DVD> searchResults = repository.findAll(pageable);
-        for ( DVD d : searchResults ) {
-            d.addLinks();
-        }
-        return searchResults;
+        return repository.findAll(pageable);
     }
 
     // Return dvd with matching id
     public DVD searchDVDByID(@Positive long id) {
-        DVD dvd = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
-        dvd.addLinks();
-        return dvd;
+        return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
     }
 
     // Return all dvds whose titles are similar to the requested name
     public Page<DVD> searchDVDByName(@NotBlank String name, @NonNull Pageable pageable) {
         Page<DVD> searchResults = repository.findByNameContainingIgnoreCase(name, pageable);
-        for ( DVD d : searchResults ) {
-            d.addLinks();
+        if ( !searchResults.hasContent() )
+        {
+            throw new DVDNotFoundException(name);
         }
         return searchResults;
     }
 
-    // Create a new DVD, if DVD cannot be saved to DB then exception occurs
+    // Create a new DVD
     public DVD createDVD(@Valid DVD newDVD) {
         repository.save(newDVD);
-        newDVD.addLinks();
         return newDVD;
     }
 
