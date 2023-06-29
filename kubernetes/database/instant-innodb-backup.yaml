@@ -1,0 +1,10 @@
+# Manually executed to perform an instant backup ,outside of the normal backup schedule
+# of the innodb cluster.
+
+apiVersion: mysql.oracle.com/v2
+kind: MySQLBackup
+metadata:
+  name: instant-innodb-backup
+spec:
+  clusterName: my-innodb-cluster
+  backupProfileName: daily-dvd-backup

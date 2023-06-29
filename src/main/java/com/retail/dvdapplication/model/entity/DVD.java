@@ -1,12 +1,11 @@
-package com.retail.dvdapplication.domain;
+package com.retail.dvdapplication.model.entity;
 
-import com.retail.dvdapplication.controller.DVDController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.NonNull;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.util.Objects;
 
 /*
 * Domain object, represents DVD. Will be inserted to MySQL DB
@@ -34,14 +33,6 @@ public class DVD  extends RepresentationModel<DVD> {
         this.reserve = reserve;
     }
 
-    // Adds links to the object
-    public void addLinks() {
-        add(linkTo(methodOn(DVDController.class).searchDVDByID(this.id)).withSelfRel());
-        add(linkTo(methodOn(DVDController.class).searchDVDByName(this.name)).withSelfRel());
-        add(linkTo(methodOn(DVDController.class).deleteDVDByID(this.id)).withRel("Delete"));
-        add(linkTo(methodOn(DVDController.class).updateDVDByID(this.id,null)).withRel("Update"));
-        add(linkTo(methodOn(DVDController.class).searchAllDVDs()).withRel("All DVDs"));
-    }
 
     // SETTERS
     public void setName(String name) {
@@ -58,7 +49,7 @@ public class DVD  extends RepresentationModel<DVD> {
 
     // GETTERS
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
@@ -80,10 +71,11 @@ public class DVD  extends RepresentationModel<DVD> {
     // UTILITY
 
     @Override
-    public boolean equals(Object a) {
-        DVD dvd = (DVD) a;
-        if (this.id == dvd.id && this.genre.equals(dvd.genre) && this.reserve == dvd.reserve) {
-            return true;
+    public boolean equals(Object obj) {
+        if (obj instanceof DVD dvdObj){
+
+            return Objects.equals(this.id, dvdObj.id) && this.genre.equals(dvdObj.genre) && Objects.equals(this.reserve, dvdObj.reserve);
+
         }
         return false;
     }
@@ -94,6 +86,7 @@ public class DVD  extends RepresentationModel<DVD> {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "DVD {" + "id=" + this.id + ", name='" + this.name + '\'' + ", genre='" + this.genre + '\'' + ", reserve='" + this.reserve + '\'' + '}';
     }

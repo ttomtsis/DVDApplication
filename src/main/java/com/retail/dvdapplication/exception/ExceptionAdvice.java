@@ -29,30 +29,6 @@ public class ExceptionAdvice {
 
     private static Logger log = LoggerFactory.getLogger("Exception Handler");
 
-// Related to issue #5 on github: https://github.com/ttomtsis/DVDApplication/issues/5
-/*    @ResponseBody
-    @ExceptionHandler(InsufficientAuthenticationException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    String InssuficientAuthenticationHandler(InsufficientAuthenticationException ex) {
-        log.info("Insufficient Authentication");
-        return "You need to be authenticated to access this resourced";
-    }
-
-    @ResponseBody
-    @ExceptionHandler(BadCredentialsException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    ResponseEntity<Object> BadCredentialsHandler(BadCredentialsException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("pls work :')");
-    }
-    @ResponseBody
-    @ExceptionHandler(MissingCredentialsException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    String MissingCredentialsHandler(MissingCredentialsException ex) {
-        log.info("Insufficient Authentication");
-        return "Missing required information: " + ex.getMessage();
-    }*/
 
     // Thrown when a DVD is not found
     @ResponseBody
@@ -68,7 +44,7 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     String SQLExceptionHandler(SQLException ex) {
         if (ex.getErrorCode()==23505) {
-            return "Unique constraint: The name you provided must be unique in the dataase, and currently it isn't";
+            return "Unique constraint: The name you provided must be unique in the database, and currently it isn't";
         }
         if (ex.getErrorCode() == 1062) {
             return "Duplicate entry: The name you provided already exists";

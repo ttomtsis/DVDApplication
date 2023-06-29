@@ -1,23 +1,28 @@
-package com.retail.dvdapplication.service;
+package com.retail.dvdapplication.model.service;
 
-import com.retail.dvdapplication.domain.DVD;
 import com.retail.dvdapplication.exception.DVDNotFoundException;
-import com.retail.dvdapplication.exception.MissingRequiredDataException;
-import com.retail.dvdapplication.repository.DVDRepository;
+import com.retail.dvdapplication.model.entity.DVD;
+import com.retail.dvdapplication.model.repository.DVDRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.validation.annotation.Validated;
 
 /*
-* Application logic implementation. Service requests made by
-* DVDController RESTController. Utilizes DVDRepository repository
-* to issue queries to the MySQL DB.
+* Application logic implementation.
+* Service requests made by the DVDController.
+* Utilizes DVDRepository to issue queries to the MySQL DB.
 */
 @Service
 @Transactional
+@Validated
 public class DVDService {
 
     private final DVDRepository repository;
@@ -29,44 +34,33 @@ public class DVDService {
     private static final Logger log = LoggerFactory.getLogger("DVD Service");
 
     // Return all dvds in database
-    public List<DVD> searchAllDVDs() {
-        List<DVD> searchResults = repository.findAll();
-        for ( DVD d : searchResults ) {
-            d.addLinks();
-        }
-        return searchResults;
+    public Page<DVD> searchAllDVDs(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     // Return dvd with matching id
-    public DVD searchDVDByID(long id) {
-        DVD dvd = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
-        dvd.addLinks();
-        return dvd;
+    public DVD searchDVDByID(@Positive long id) {
+        return repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
     }
 
     // Return all dvds whose titles are similar to the requested name
-    public List<DVD> searchDVDByName(String name) {
-        if ( name.equals("") ) {
-            throw new MissingRequiredDataException();
-        }
-        List<DVD> searchResults = repository.findByNameContainingIgnoreCase(name);
-        for ( DVD d : searchResults ) {
-            d.addLinks();
+    public Page<DVD> searchDVDByName(@NotBlank String name, @NonNull Pageable pageable) {
+        Page<DVD> searchResults = repository.findByNameContainingIgnoreCase(name, pageable);
+        if ( !searchResults.hasContent() )
+        {
+            throw new DVDNotFoundException(name);
         }
         return searchResults;
     }
 
-    // Create a new DVD, if DVD cannot be saved to DB then exception occurs
-    public DVD createDVD(DVD newDVD) {
+    // Create a new DVD
+    public DVD createDVD(@Valid DVD newDVD) {
         repository.save(newDVD);
-        newDVD.addLinks();
         return newDVD;
     }
 
     // Update a DVD
-    // Also check issue #17 regarding the 'name' field
-    // https://github.com/ttomtsis/DVDApplication/issues/17
-    public DVD updateDVDByID(long id, DVD newDVD) {
+    public DVD updateDVDByID(@Positive long id, @Valid DVD newDVD) {
         // Check if the DVD exists
         DVD existingDVD = repository.findById(id).orElseThrow(() -> new DVDNotFoundException(id));
 
@@ -85,7 +79,7 @@ public class DVDService {
     }
 
     // Delete a DVD
-    public void deleteDVDByID(long id) {
+    public void deleteDVDByID(@Positive long id) {
         if ( repository.existsById(id) ) {
             repository.deleteById(id);
         }

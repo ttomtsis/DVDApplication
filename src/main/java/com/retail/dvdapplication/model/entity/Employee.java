@@ -1,4 +1,4 @@
-package com.retail.dvdapplication.domain;
+package com.retail.dvdapplication.model.entity;
 
 import jakarta.persistence.*;
 

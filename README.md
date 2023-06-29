@@ -3,7 +3,9 @@
 This is part of a university course from University of the Aegean,
 aiming to provide students with practical experience on cloud technologies
 
-**Concept**: Java Spring Boot application that provides a simple RESTful API service for a DVD store. The API allows users to perform CRUD operations on a MySQL database containing DVD records. The application includes user authentication using Spring Security, and follows HATEOAS principles for API design. It also includes Docker for containerization and can be run on a minikube created Kubernetes cluster.
+**Concept**: 
+
+Java Spring Boot application that provides a simple RESTful API service for a DVD store. The API allows users to perform CRUD operations on a MySQL database containing DVD records. The application includes user authentication using Spring Security, and follows HATEOAS principles for API design. It also includes Docker for containerization and can be run on a minikube created Kubernetes cluster.
 
 Associated DockerHub container repository: 
 https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
@@ -11,11 +13,10 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 # Features
 * Role-based authorization, Basic Authentication
 * HATEOAS
-* Spring Actuator 
 * Docker support
 * Kubernetes support
-* MySQL and InnoDB Cluster
-* GraalVM Native Image
+* MySQL and MySQL Operator with InnoDB cluster
+* GraalVM Native Image and executable
 * TLS v1.3 support with dummy certificates
 
 # Technology stack
@@ -26,23 +27,29 @@ https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
 * HATEOAS 3
 * Docker
 * Kubernetes
-* GraalVM 22 ( for native image creation )
+* GraalVM 22
 
 # Getting Started
-To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube. 
-The spring boot app consists of **two profiles**:
+To get started with this project, you can choose either to run it locally on your host machine, on docker or in a single node Kubernetes cluster using minikube.
 
-1) The '**default profile**' which by default uses an H2 database but can be
-configured to function with any Spring compatible Database ( Refer to the Database configuration section below ).
+You will need to have the following installed on your machine:
 
-2) The '**containerized profile**' should be used when the application is containerised in docker or deployed in Kubernetes
-It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
+* Java 17+
+* Maven 3.9.1+, or you can use the provided maven wrapper
+* MySQL Server installed or running in a container ( Unless the default H2 database suits your needs ).
+
+The spring boot app consists of **two profiles** similar to each other:
+
+1) The '**default profile**' should be used for local development and testing. Used an H2 database unless configured otherwise
+and lacks more advanced features spring actuator.
+
+2) The '**containerized profile**' should be used when the application is containerised in docker, deployed in Kubernetes
+**or if running as a native image or executable**. It is similar to the default profile but contains some extra properties ( i.e. graceful shutdown ).
 Set the active profile in windows powershell: `$env:SPRING_PROFILES_ACTIVE="containerized"`
-NOTE: This profile should be used in conjunction with the native executables
 
 A dummy root CA certificate is provided in the `resources/tls` directory. You can install this in your system.
-There is also a server certificate provided, which has been signed by the dummy CA. Feel free replace those certificates as needed.
-**The scripts provided below were created for the Windows OS**.
+There is also a server certificate provided, which has been signed by the dummy CA. Feel free to replace those certificates as needed.
+**The scripts used below were created for the Windows OS**.
 
 ## Database configuration
 To use a normal database you must configure the application to use your credentials when connecting to the
@@ -50,14 +57,10 @@ specified database by setting the following environment variables:
 
  - **DB_USERNAME** : The username that you use when you connect to the database
  - **DB_PASSWORD** : The password that you use when you connect to the database
- - **DATASOUCE_URL** : The url to your database. You can use any database that is compatible with Spring Boot like PostgreSQL or MySQL etc, however note that
- this application was developed and tested while using MySQL 8.0. Also take care to use the correct driver in the provided url.
-
-Note that **the containerized profile does not use an H2 database by default** and if you set it active but forget to
-provide the above environment variables the server's execution will fail.
+ - **DATASOUCE_URL** : The url pointing to the location of your database, either local or remote.
 
 ## TLS configuration
-You can use the provided certificates or you can override the following properties to implement your own
+You can use the provided certificates or you can override the following properties, via environment variables, to implement your own
 configuration
 
 - **server.ssl.key-store** : The location of the keyfile
@@ -65,37 +68,26 @@ configuration
 - **server.ssl.key-store-password** : The type of the keyfile
 - **server.ssl.keyAlias** : The alias associated with the key file
 
-Note: mTLS is currently not supported
-
 ## Locally
 
-### Build with maven 
-You will need to have the following installed on your machine:
+### Option 1: Build with maven
 
-* Java 17+
-* Maven 3.9.1+, or you can use the provided maven wrapper
-* A database compatible with Spring Boot, either installed or running in a container.
-
-To build and run the project, follow these steps:
+To build and run the project using maven, follow these steps:
 
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the project directory
 * Build the project: `mvn clean install`
 * Run the project: `mvn spring-boot:run`
 
-### Native executable
+**NOTE**: You can also use the provided maven wrapper
+
+### Option 2: Native executable
 You can also download the latest native executable
 ( https://github.com/ttomtsis/DVDApplication/releases ), configure it as described above
 and run it without any prerequisites
 
-In case you need to create a new executable use maven's native profile:
-If maven is installed use: `mvn -Pnative native:compile`
-
-Alternatively you can use the maven wrapper: `./mvnw -Pnative native:compile`
-
 ## Docker
 To run the project on Docker, make sure you have Docker installed on your machine.
-The provided scripts use a MySQL Database by default
 
 ### Option 1: Manual Docker Build
 * Clone the repository to your local machine `git clone https://github.com/ttomtsis/DVDApplication`
@@ -109,22 +101,47 @@ The provided scripts use a MySQL Database by default
 * Clone the repository to your local machine `git clone https://github.com/ttomtsis/DVDApplication`
 * Navigate to the docker-scripts directory, located inside the project directory
 * Start the containers by running the compose-start.bat file: `./compose-start.bat`
-* Delete the containers, networks and associated vlumes by running the compose-stop.bat file: `./compose-stop.bat`
+* Delete the containers, networks and associated volumes by running the compose-stop.bat file: `./compose-stop.bat`
 
 ### Option 3: Dockerhub
 * Check out the associated dockerhub repository: https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
-* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:native-image`
+* Pull the desired image and use the `start.bat` script to run it `docker pull ttomtsis/dvd-spring-server:latest`
+
+**NOTE**: If you pull a tag other than 'latest' you will need to tag the pulled image to 'dvd-spring-server:latest'
+in order for the script to work properly
 
 ## Kubernetes
-To run the project on Minikube, make sure you have python 3, Minikube and kubectl installed and properly configured on your machine.
+To run the project on Minikube, you can use either the provided python scripts or create the cluster manually.
+Make sure you have python 3, minikube and kubectl installed and properly configured on your machine.
+You will also need to install the MySQL Operator and have the 'awk' cli utility installed ( this process will be automated in the future,
+the awk utility is required for the deletion script to function ).
+
+For info on how to install the MySQL Operator refer to its official GitHub repository:
+
+https://github.com/mysql/mysql-operator
+
+### Option 1: Using the python scripts
+
+
 * Clone the repository to your local machine: `git clone https://github.com/ttomtsis/DVDApplication`
-* Navigate to the yaml folder in the project directory
-* Run the `setup.bat` file. This script initializes a minikube cluster with a REST server, a MySQL Router and an InnoDB cluster with 3 MySQL databases 
+* Navigate to the 'kubernetes' folder in the project directory
+* Run the `setup.py` file. This script initializes a minikube cluster with a REST server, and an InnoDB Cluster with 3 databases
 * Get the minikube IP address. Keep this window open.
 * Access the application's endpoints at the given IP address
-* If you want to remove all traces of the application run the `delete.bat` script
-* Experimental secret encryption in the cluster through `enable-encryption.bat` script
+* If you want to remove all traces of the application run the `delete.py` script
 
+### Option 2: Creating the cluster manually
+Open a terminal inside the 'kubernetes' folder and follow the sequence of steps provided below:
+1) Create the config map `kubectl apply -f ./configs/dvd-conf.yaml`
+2) Create the secret `kubectl apply -f ./database/db-secret.yaml`
+3) Create the persistent volume and claim the InnoDB cluster will use for backups `kubectl apply -f ./database/innodb-backup.yaml`
+4) Create the InnoDB cluster `kubectl apply -f ./database/innodb-cluster.yaml`
+5) Initialize the InnoDB cluster `kubectl apply -f ./database/init-cluster.yaml`
+6) Wait for the cluster's creation
+7) Create the rest server's service `kubectl apply -f ./rest-server/rest-server-service.yaml`
+8) Create the rest server's deployment `kubectl apply -f ./rest-server/rest-server-deployment.yaml`
+9) Wait for the rest server to fully initialize ( When using a native image this won't take more than 1 second )
+10) Use minikube to expose the rest server `minikube service rest-server-service` 
 # Endpoints
 
 **DVD CRUD Operations**
@@ -137,7 +154,7 @@ To run the project on Minikube, make sure you have python 3, Minikube and kubect
 
 **Actuator**
 
-**NOTE:** If the server is running as a native image only the `/server/health` and `/server/logs`
+**NOTE:** If the server is running as a native image or executable, only the `/server/health` and `/server/logs`
 endpoints are available.
 * GET `/server` - Provides a list of all actuator endpoints
 * GET `/server/info` - Returns basic information about the application

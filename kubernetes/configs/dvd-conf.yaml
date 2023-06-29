@@ -1,0 +1,15 @@
+# ConfigMap for the MySQL Server and Router Pods
+# as well as for the Spring Boot REST Server Pods
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dvd-config
+data:
+  # Used by the init-pod to create a database of the same name on the InnoDB cluster
+  mysql_database: "mydb"
+
+  # Spring Server configuration settings
+  datasource_url: "jdbc:mysql://my-innodb-cluster:3306/mydb"
+  spring_profiles_active: "containerized"
+
+
