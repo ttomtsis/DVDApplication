@@ -24,7 +24,7 @@ spec:
       containers:
         - name: dvd-spring-server
           # Using the native image to increase performance
-          image: ttomtsis/dvd-spring-server:native-image
+          image: ttomtsis/dvd-spring-server:native-image-v1.0.0
           env:
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:

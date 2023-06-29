@@ -1,6 +1,6 @@
-package com.retail.dvdapplication.repository;
+package com.retail.dvdapplication.model.repository;
 
-import com.retail.dvdapplication.domain.Employee;
+import com.retail.dvdapplication.model.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /*
