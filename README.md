@@ -8,7 +8,7 @@ aiming to provide students with practical experience on cloud technologies
 Java Spring Boot application that provides a simple RESTful API service for a DVD store. The API allows users to perform CRUD operations on a MySQL database containing DVD records. The application includes user authentication using Spring Security, and follows HATEOAS principles for API design. It also includes Docker for containerization and can be run on a minikube created Kubernetes cluster.
 
 Associated DockerHub container repository: 
-https://hub.docker.com/repository/docker/ttomtsis/dvd-spring-server/general
+https://hub.docker.com/r/ttomtsis/dvd-spring-server
 
 # Features
 * Role-based authorization, Basic Authentication
